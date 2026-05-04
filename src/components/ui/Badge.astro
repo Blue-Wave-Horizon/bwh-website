@@ -1,0 +1,23 @@
+---
+// §7 — Badge.astro
+// Small inline pill. Text xs, font-heading semibold, uppercase, tracking-wide, rounded-full, border.
+
+interface Props {
+  label: string;
+  color?: 'primary' | 'accent' | 'muted';
+}
+
+const { label, color = 'primary' } = Astro.props;
+
+const colorClasses: Record<string, string> = {
+  primary: 'bg-primary/10 text-secondary border-primary/30',
+  accent: 'bg-accent/10 text-accent border-accent/30',
+  muted: 'bg-cream-dark text-muted border-cream-dark',
+};
+---
+
+<span
+  class={`text-xs font-heading font-semibold uppercase tracking-wide px-3 py-1 rounded-full border ${colorClasses[color]}`}
+>
+  {label}
+</span>

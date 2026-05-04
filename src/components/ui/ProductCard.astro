@@ -1,0 +1,73 @@
+---
+// §7 — ProductCard.astro
+// bg-white rounded-2xl border border-cream-dark shadow-sm
+// Hover: shadow-md border-primary/40 scale-[1.02] transition-all duration-200
+
+interface Props {
+  name: string;
+  category: string;
+  description: string;
+  href: string;
+  imageSrc: string;
+  imageAlt: string;
+  badgeColor?: 'primary' | 'accent';
+}
+
+const {
+  name,
+  category,
+  description,
+  href,
+  imageSrc,
+  imageAlt,
+  badgeColor = 'primary',
+} = Astro.props;
+
+const badgeColorClasses: Record<string, string> = {
+  primary: 'bg-primary/10 text-secondary border border-primary/30',
+  accent: 'bg-accent/10 text-accent border border-accent/30',
+};
+---
+
+<article
+  class="bg-white rounded-2xl border border-cream-dark shadow-sm overflow-hidden transition-all duration-200 hover:shadow-md hover:border-primary/40 hover:scale-[1.02]"
+  style="box-shadow: 0 2px 12px rgba(26,26,46,0.07);"
+>
+  <!-- Product preview image — §13 placeholder convention -->
+  <div class="w-full aspect-video overflow-hidden bg-cream-mid">
+    {
+      imageSrc ? (
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          width="600"
+          height="338"
+          loading="lazy"
+          class="w-full h-full object-cover"
+        />
+      ) : (
+        <div class="w-full h-full flex items-center justify-center border-b border-cream-dark">
+          <span class="text-muted font-body text-sm">Image coming soon</span>
+        </div>
+      )
+    }
+  </div>
+
+  <div class="p-6 md:p-8">
+    <div class="mb-3">
+      <span
+        class={`text-xs font-heading font-semibold uppercase tracking-wide px-3 py-1 rounded-full ${badgeColorClasses[badgeColor]}`}
+      >
+        {category}
+      </span>
+    </div>
+    <h3 class="font-heading font-bold text-xl text-ink mb-2">{name}</h3>
+    <p class="font-body text-ink-mid text-sm mb-5 leading-relaxed">{description}</p>
+    <a
+      href={href}
+      class="font-body text-secondary text-sm font-semibold hover:underline transition-all duration-150 inline-flex items-center gap-1"
+    >
+      View Product <span aria-hidden="true">&rarr;</span>
+    </a>
+  </div>
+</article>

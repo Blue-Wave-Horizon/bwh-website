@@ -1,0 +1,317 @@
+---
+// §6.5 — Velopad product page (/products/velopad)
+// Goal: explain what Velopad is, how it works, give all download/access links.
+// Energetic, appeals to PC gamers. Accent orange warm treatment.
+// SEO: §9 spec. Copy from §6.5 verbatim where specified.
+
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Button from '../../components/ui/Button.astro';
+---
+
+<BaseLayout
+  title="Velopad — Mobile to PC Game Controller"
+  description="Turn your Android phone into a high-precision PC controller. Low-latency gyroscope and touch input over USB or WiFi."
+>
+
+  <!-- ───── Hero / Intro — §6.5 ───── -->
+  <!-- cream bg, warm accent treatment upper-left: accent at ~6% opacity -->
+  <section class="py-20 md:py-28 bg-cream relative overflow-hidden">
+
+    <!-- Accent radial gradient upper-left — §6.5 spec -->
+    <div
+      class="absolute top-0 left-0 w-2/3 h-2/3 pointer-events-none"
+      style="background: radial-gradient(ellipse at top left, rgba(250,133,38,0.06) 0%, transparent 70%);"
+      aria-hidden="true"
+    ></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl relative z-10">
+
+        <!-- Eyebrow badge — §6.5 spec: bg-accent/10 text-accent border-accent/30 -->
+        <span
+          class="text-xs font-heading font-semibold uppercase tracking-wide px-3 py-1 rounded-full border bg-accent/10 text-accent border-accent/30 inline-block mb-5"
+        >
+          Gaming Utility
+        </span>
+
+        <!-- H1 — §6.5 spec -->
+        <h1 class="font-heading font-extrabold text-5xl md:text-6xl text-ink mb-3 leading-tight">
+          Velopad
+        </h1>
+
+        <!-- Tagline — §6.5 spec verbatim -->
+        <p class="font-heading font-bold text-xl md:text-2xl text-ink mb-6 leading-snug">
+          Your phone. Your controller. Zero compromise.
+        </p>
+
+        <!-- Body — §6.5 spec verbatim -->
+        <div class="font-body text-ink-mid text-base leading-relaxed mb-8 max-w-lg space-y-3">
+          <p>
+            Velopad turns your Android device into a high-precision PC game controller.
+            Using your phone's gyroscope and touch inputs, Velopad maps to PC game controls
+            with low latency — over USB or WiFi.
+          </p>
+          <p>Designed specifically for FPS games where input precision matters most.</p>
+        </div>
+
+        <!-- CTA Buttons row — §6.5 spec -->
+        <div class="flex flex-wrap gap-4">
+          <!-- Accent button: PC Client download -->
+          <Button
+            href="https://github.com/Blue-Wave-Horizon/velopad-releases/releases"
+            variant="accent"
+            external
+          >
+            Download PC Client
+          </Button>
+
+          <!-- Disabled: Android App not yet on Play Store — §6.5 spec: aria-disabled, no href -->
+          <div class="relative group">
+            <a
+              href="#"
+              aria-disabled="true"
+              tabindex="-1"
+              onclick="return false;"
+              class="inline-flex items-center justify-center gap-2 border-2 border-cream-dark text-muted font-heading font-semibold px-6 py-3 rounded-lg cursor-not-allowed opacity-60"
+            >
+              Android App
+            </a>
+            <!-- Tooltip label — §6.5 spec -->
+            <p class="text-xs text-muted font-body mt-1 text-center">Coming soon on Google Play</p>
+          </div>
+
+          <!-- View documentation -->
+          <Button
+            href="https://github.com/Blue-Wave-Horizon/velopad-releases"
+            variant="outline"
+            external
+          >
+            View Documentation
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── Features Section — §6.5 ───── -->
+  <!-- grid-cols-1 md:grid-cols-2 lg:grid-cols-3. Six feature blocks. -->
+  <section class="py-20 md:py-28 bg-cream-mid">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <h2 class="font-heading font-bold text-3xl md:text-4xl text-ink mb-12 reveal">
+        What Velopad Does
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- Feature 1: Gyroscope Aiming — §6.5 verbatim -->
+        <div class="reveal">
+          <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fa8526" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="22" y1="12" x2="18" y2="12" />
+              <line x1="6" y1="12" x2="2" y2="12" />
+              <line x1="12" y1="6" x2="12" y2="2" />
+              <line x1="12" y1="22" x2="12" y2="18" />
+            </svg>
+          </div>
+          <h3 class="font-heading font-bold text-lg text-ink mb-2">Gyroscope Aiming</h3>
+          <p class="font-body text-ink-mid text-sm leading-relaxed">
+            Use your phone's gyroscope for smooth, natural aiming in FPS games. Move the
+            phone, move the crosshair.
+          </p>
+        </div>
+
+        <!-- Feature 2: Touch Input Mapping — §6.5 verbatim -->
+        <div class="reveal">
+          <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fa8526" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2" />
+              <circle cx="12" cy="17" r="1" fill="#fa8526" />
+            </svg>
+          </div>
+          <h3 class="font-heading font-bold text-lg text-ink mb-2">Touch Input Mapping</h3>
+          <p class="font-body text-ink-mid text-sm leading-relaxed">
+            Configurable touch zones map to keyboard and mouse inputs. Customise your layout
+            to match your playstyle.
+          </p>
+        </div>
+
+        <!-- Feature 3: Low Latency — §6.5 verbatim -->
+        <div class="reveal">
+          <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fa8526" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+          </div>
+          <h3 class="font-heading font-bold text-lg text-ink mb-2">Low Latency</h3>
+          <p class="font-body text-ink-mid text-sm leading-relaxed">
+            Engineered for minimal input delay. Precision counts in competitive play —
+            Velopad is built around that.
+          </p>
+        </div>
+
+        <!-- Feature 4: USB & WiFi — §6.5 verbatim -->
+        <div class="reveal">
+          <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fa8526" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+              <path d="M1.42 9a16 16 0 0 1 21.16 0" />
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+              <circle cx="12" cy="20" r="1" fill="#fa8526" />
+            </svg>
+          </div>
+          <h3 class="font-heading font-bold text-lg text-ink mb-2">USB &amp; WiFi</h3>
+          <p class="font-body text-ink-mid text-sm leading-relaxed">
+            Connect over USB for the lowest latency, or use WiFi for cable-free play. Both
+            modes are supported.
+          </p>
+        </div>
+
+        <!-- Feature 5: Setup Hub Mode — §6.5 verbatim -->
+        <div class="reveal">
+          <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fa8526" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" />
+            </svg>
+          </div>
+          <h3 class="font-heading font-bold text-lg text-ink mb-2">Setup Hub Mode</h3>
+          <p class="font-body text-ink-mid text-sm leading-relaxed">
+            A dedicated configuration interface for setting up controller mappings, connection
+            settings, and calibration before you game.
+          </p>
+        </div>
+
+        <!-- Feature 6: Gameplay HUD Mode — §6.5 verbatim -->
+        <div class="reveal">
+          <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fa8526" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" />
+              <line x1="8" y1="21" x2="16" y2="21" />
+              <line x1="12" y1="17" x2="12" y2="21" />
+            </svg>
+          </div>
+          <h3 class="font-heading font-bold text-lg text-ink mb-2">Gameplay HUD Mode</h3>
+          <p class="font-body text-ink-mid text-sm leading-relaxed">
+            A clean, minimal HUD displayed during gameplay — showing connection status and
+            active inputs without cluttering the screen.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── How to Get Started — §6.5 ───── -->
+  <section class="py-20 md:py-28 bg-cream">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <h2 class="font-heading font-bold text-3xl md:text-4xl text-ink mb-12 text-center reveal">
+        How to Get Started
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+
+        <!-- Connector line (desktop only) -->
+        <div
+          class="hidden md:block absolute top-8 left-[calc(16.66%+16px)] right-[calc(16.66%+16px)] h-[2px] bg-cream-dark"
+          aria-hidden="true"
+        ></div>
+
+        <!-- Step 1 — §6.5 verbatim -->
+        <div class="flex flex-col items-center text-center reveal">
+          <div
+            class="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/30 flex items-center justify-center mb-5 font-heading font-bold text-accent text-xl relative z-10"
+            aria-hidden="true"
+          >
+            1
+          </div>
+          <h3 class="font-heading font-bold text-lg text-ink mb-2">Download the PC Client</h3>
+          <p class="font-body text-ink-mid text-sm leading-relaxed max-w-xs">
+            Get the latest release from GitHub. Run the installer on your Windows PC.
+          </p>
+        </div>
+
+        <!-- Step 2 — §6.5 verbatim -->
+        <div class="flex flex-col items-center text-center reveal">
+          <div
+            class="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/30 flex items-center justify-center mb-5 font-heading font-bold text-accent text-xl relative z-10"
+            aria-hidden="true"
+          >
+            2
+          </div>
+          <h3 class="font-heading font-bold text-lg text-ink mb-2">Install the Android App</h3>
+          <p class="font-body text-ink-mid text-sm leading-relaxed max-w-xs">
+            Install Velopad on your Android device from the Google Play Store.
+            <em class="not-italic text-muted">(Coming soon)</em>
+          </p>
+        </div>
+
+        <!-- Step 3 — §6.5 verbatim -->
+        <div class="flex flex-col items-center text-center reveal">
+          <div
+            class="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/30 flex items-center justify-center mb-5 font-heading font-bold text-accent text-xl relative z-10"
+            aria-hidden="true"
+          >
+            3
+          </div>
+          <h3 class="font-heading font-bold text-lg text-ink mb-2">Connect &amp; Play</h3>
+          <p class="font-body text-ink-mid text-sm leading-relaxed max-w-xs">
+            Launch both apps, connect via USB or WiFi, and open your game. Velopad handles
+            the rest.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── Download Panel — §6.5 ───── -->
+  <!-- bg-cream-mid rounded-2xl border border-cream-dark p-10 text-center -->
+  <section class="py-16 md:py-20 bg-cream-mid">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div
+        class="bg-cream-mid rounded-2xl border border-cream-dark p-10 text-center max-w-2xl mx-auto reveal"
+        style="box-shadow: 0 2px 12px rgba(26,26,46,0.07);"
+      >
+        <!-- H2 — §6.5 spec -->
+        <h2 class="font-heading font-bold text-3xl text-ink mb-8">Get Velopad</h2>
+
+        <!-- Three buttons — §6.5 spec -->
+        <div class="flex flex-wrap justify-center gap-4 mb-6">
+
+          <!-- Accent: PC Client download -->
+          <Button
+            href="https://github.com/Blue-Wave-Horizon/velopad-releases/releases"
+            variant="accent"
+            external
+          >
+            &#8595; Download PC Client
+          </Button>
+
+          <!-- Muted/disabled: Android App Coming Soon — §6.5 spec -->
+          <button
+            type="button"
+            aria-disabled="true"
+            class="inline-flex items-center justify-center gap-2 bg-cream-dark text-muted font-heading font-semibold px-6 py-3 rounded-lg cursor-not-allowed opacity-60"
+          >
+            Android App — Coming Soon
+          </button>
+
+          <!-- Outline: documentation -->
+          <Button
+            href="https://github.com/Blue-Wave-Horizon/velopad-releases"
+            variant="outline"
+            external
+          >
+            &#128218; View Documentation (README)
+          </Button>
+        </div>
+
+        <!-- Fine print — §6.5 spec verbatim -->
+        <p class="font-body text-sm text-muted">
+          PC Client runs on Windows. Android app requires Android 8.0 or later.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,15 @@
+# §8 — Cloudflare Worker configuration
+# Deploy: cd worker && wrangler deploy
+# Set secret before deploying: wrangler secret put ZEPTO_API_KEY
+
+name = "bwh-contact-worker"
+main = "index.ts"
+compatibility_date = "2024-01-01"
+
+[vars]
+ZEPTO_FROM_ADDRESS = "noreply@bluewavehorizon.com"
+ZEPTO_FROM_NAME = "Blue Wave Horizon Website"
+ZEPTO_TO_ADDRESS = "hello@dwellr.ng"
+
+# ZEPTO_API_KEY must be set as a secret — never commit it:
+#   wrangler secret put ZEPTO_API_KEY

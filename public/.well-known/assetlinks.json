@@ -1,0 +1,11 @@
+[
+  {
+    "_comment": "Fill in package_name and sha256_cert_fingerprints when Android app is submitted to Play Store",
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.bluewavehorizon.velopad",
+      "sha256_cert_fingerprints": ["REPLACE_WITH_SHA256_FINGERPRINT"]
+    }
+  }
+]

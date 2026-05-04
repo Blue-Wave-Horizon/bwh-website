@@ -1,0 +1,36 @@
+---
+// §7 — SectionHeading.astro
+// eyebrow: text-primary uppercase tracking-widest font-heading
+// heading: H2, Poppins bold, ink
+// subheading: Nunito, text-muted
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  subheading?: string;
+  align?: 'left' | 'center';
+}
+
+const { eyebrow, heading, subheading, align = 'left' } = Astro.props;
+
+const isCenter = align === 'center';
+const wrapClass = isCenter ? 'text-center mx-auto' : '';
+---
+
+<div class={`max-w-2xl ${wrapClass}`}>
+  {
+    eyebrow && (
+      <p class="text-primary uppercase text-sm tracking-widest font-heading font-semibold mb-2">
+        {eyebrow}
+      </p>
+    )
+  }
+  <h2 class={`font-heading font-bold text-3xl md:text-4xl text-ink leading-tight mb-3 ${wrapClass}`}>
+    {heading}
+  </h2>
+  {
+    subheading && (
+      <p class={`font-body text-muted text-lg leading-relaxed ${wrapClass}`}>{subheading}</p>
+    )
+  }
+</div>

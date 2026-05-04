@@ -1,0 +1,12 @@
+{
+  "_comment": "Fill in appID when iOS app is registered with Apple Developer",
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "TEAMID.com.bluewavehorizon.velopad",
+        "paths": ["*"]
+      }
+    ]
+  }
+}

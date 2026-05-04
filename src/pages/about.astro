@@ -1,0 +1,122 @@
+---
+// §6.2 — About page (/about)
+// Sections: Page Hero | Founder Section (FounderBio) | Company Background | Company Details Panel
+// SEO: §9 spec
+
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import FounderBio from '../components/sections/FounderBio.astro';
+---
+
+<BaseLayout
+  title="About — Blue Wave Horizon"
+  description="Meet the team behind Blue Wave Horizon, a technology startup from Uyo, Nigeria building scalable PropTech and gaming software."
+>
+
+  <!-- ───── Page Hero — §6.2 ───── -->
+  <!-- Compact banner, cream-mid bg, left-edge vertical stripe of primary at 3px -->
+  <section class="py-20 md:py-24 bg-cream-mid relative overflow-hidden">
+    <!-- Left-edge vertical stripe in primary — §6.2 spec -->
+    <div
+      class="absolute left-0 top-0 bottom-0 w-[3px] bg-primary"
+      aria-hidden="true"
+    ></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <h1 class="font-heading font-extrabold text-4xl md:text-5xl text-ink mb-4 leading-tight">
+          About Blue Wave Horizon
+        </h1>
+        <!-- §6.2 subheading verbatim -->
+        <p class="font-body text-lg text-ink-mid leading-relaxed">
+          A one-person product lab building the infrastructure Nigeria's digital economy needs.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── Founder Section — §6.2 ───── -->
+  <FounderBio />
+
+  <!-- ───── Company Background Section — §6.2 ───── -->
+  <!-- Single-column, centred, max-w-2xl. bg-cream-mid for rhythm. -->
+  <section class="py-20 md:py-28 bg-cream-mid">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mx-auto">
+
+        <!-- H2 + body — §6.2 verbatim -->
+        <h2 class="font-heading font-bold text-3xl md:text-4xl text-ink mb-6 reveal">
+          Why We Build What We Build
+        </h2>
+        <div class="space-y-4 font-body text-ink-mid text-base leading-relaxed reveal">
+          <p>
+            The Nigerian rental market has historically been dominated by agents who charge
+            significant fees without adding proportionate value to either landlord or tenant.
+            Dwellr exists to close that gap.
+          </p>
+          <p>
+            The gaming peripheral market assumes you need expensive hardware to play well.
+            Velopad challenges that assumption — your phone is already a precision input device.
+          </p>
+          <p>
+            Both products share the same origin: a frustration with how things are, and a
+            belief that software can make them better.
+          </p>
+        </div>
+
+        <hr class="border-t border-cream-dark my-12" />
+
+        <!-- Operating Philosophy — §6.2 verbatim -->
+        <h2 class="font-heading font-bold text-3xl md:text-4xl text-ink mb-6 reveal">
+          Operating Philosophy
+        </h2>
+        <p class="font-body text-ink-mid text-base leading-relaxed reveal">
+          We do not build fast and break things carelessly. We build with precision,
+          ship when ready, and own every outcome. Blue Wave Horizon is registered in Nigeria
+          (RC 9357879) and is committed to building scalable, lasting technology from
+          Uyo, Akwa Ibom State.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── Company Details Panel — §6.2 ───── -->
+  <!-- White card, factual, understated. Not visually dominant. -->
+  <section class="py-16 md:py-20 bg-cream">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mx-auto reveal">
+        <div
+          class="bg-white rounded-2xl border border-cream-dark p-8"
+          style="box-shadow: 0 2px 12px rgba(26,26,46,0.07);"
+        >
+          <h2 class="font-heading font-bold text-xl text-ink mb-6">Company Details</h2>
+
+          <!-- Definition-list style grid — §6.2 spec -->
+          <dl class="divide-y divide-cream-dark">
+            <div class="py-3 grid grid-cols-2 gap-4">
+              <dt class="font-heading font-semibold text-ink text-sm">Legal Name</dt>
+              <dd class="font-body text-ink-mid text-sm">Blue Wave Horizon Ltd.</dd>
+            </div>
+            <div class="py-3 grid grid-cols-2 gap-4">
+              <dt class="font-heading font-semibold text-ink text-sm">CAC Registration</dt>
+              <dd class="font-body text-ink-mid text-sm">RC 9357879</dd>
+            </div>
+            <div class="py-3 grid grid-cols-2 gap-4">
+              <dt class="font-heading font-semibold text-ink text-sm">D-U-N-S Number</dt>
+              <dd class="font-body text-ink-mid text-sm">669828461</dd>
+            </div>
+            <div class="py-3 grid grid-cols-2 gap-4">
+              <dt class="font-heading font-semibold text-ink text-sm">Registered Address</dt>
+              <dd class="font-body text-ink-mid text-sm">
+                4, Udo Ekong Close, Akpa Ube, Aka Road, Uyo, Akwa Ibom State, Nigeria
+              </dd>
+            </div>
+            <div class="py-3 grid grid-cols-2 gap-4">
+              <dt class="font-heading font-semibold text-ink text-sm">Founded</dt>
+              <dd class="font-body text-ink-mid text-sm">2026</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

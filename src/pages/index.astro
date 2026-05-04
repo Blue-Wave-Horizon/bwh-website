@@ -1,0 +1,220 @@
+---
+// §6.1 — Home page (/)
+// SEO: §9 title/description spec.
+// Sections: Hero | Product Tease | Company Values Strip
+
+import BaseLayout from '../components/layout/BaseLayout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Button from '../components/ui/Button.astro';
+---
+
+<BaseLayout
+  title="Blue Wave Horizon — Software Product Lab"
+  description="Blue Wave Horizon builds direct, efficient software for PropTech and gaming in Nigeria. Creators of Dwellr and Velopad."
+>
+
+  <!-- ───── Hero — §6.1 ───── -->
+  <Hero />
+
+  <!-- ───── Product Tease Section — §6.1 ───── -->
+  <!-- bg-cream-mid: warm step down from hero without harsh contrast -->
+  <section class="py-20 md:py-28 bg-cream-mid">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Section heading — centred, Poppins bold, ink -->
+      <h2
+        class="font-heading font-bold text-3xl md:text-4xl text-ink text-center mb-12 reveal"
+      >
+        What We're Building
+      </h2>
+
+      <!-- Two-column card grid — §6.1 spec -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+        <!-- Dwellr Card — §6.1 spec -->
+        <article
+          class="bg-white rounded-2xl border border-cream-dark shadow-sm p-8 transition-all duration-200 hover:shadow-md hover:border-primary/40 reveal group"
+          style="box-shadow: 0 2px 12px rgba(26,26,46,0.07);"
+        >
+          <!-- Icon mark placeholder — secondary colour per §6.1 -->
+          <div
+            class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5"
+            aria-hidden="true"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#0a718d"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+          </div>
+
+          <!-- Badge — PropTech, bg-primary/10 text-secondary border-primary/30 -->
+          <span
+            class="text-xs font-heading font-semibold uppercase tracking-wide px-3 py-1 rounded-full border bg-primary/10 text-secondary border-primary/30 mb-4 inline-block"
+          >
+            PropTech
+          </span>
+
+          <h3 class="font-heading font-bold text-xl text-ink mt-3 mb-2">Dwellr</h3>
+          <p class="font-body text-ink-mid text-sm mb-5 leading-relaxed">
+            Direct landlord-to-tenant rentals. No agent fees.
+          </p>
+          <a
+            href="/products/dwellr"
+            class="font-body text-secondary text-sm font-semibold hover:underline transition-colors duration-150 inline-flex items-center gap-1"
+          >
+            Learn More <span aria-hidden="true">&rarr;</span>
+          </a>
+        </article>
+
+        <!-- Velopad Card — §6.1 spec -->
+        <article
+          class="bg-white rounded-2xl border border-cream-dark shadow-sm p-8 transition-all duration-200 hover:shadow-md hover:border-primary/40 reveal group"
+          style="box-shadow: 0 2px 12px rgba(26,26,46,0.07);"
+        >
+          <!-- Icon mark placeholder — accent colour per §6.1 -->
+          <div
+            class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-5"
+            aria-hidden="true"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#fa8526"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+              <line x1="12" y1="18" x2="12.01" y2="18" />
+            </svg>
+          </div>
+
+          <!-- Badge — Gaming Utility, bg-accent/10 text-accent border-accent/30 -->
+          <span
+            class="text-xs font-heading font-semibold uppercase tracking-wide px-3 py-1 rounded-full border bg-accent/10 text-accent border-accent/30 mb-4 inline-block"
+          >
+            Gaming Utility
+          </span>
+
+          <h3 class="font-heading font-bold text-xl text-ink mt-3 mb-2">Velopad</h3>
+          <p class="font-body text-ink-mid text-sm mb-5 leading-relaxed">
+            Your phone, reimagined as a high-precision PC controller.
+          </p>
+          <a
+            href="/products/velopad"
+            class="font-body text-secondary text-sm font-semibold hover:underline transition-colors duration-150 inline-flex items-center gap-1"
+          >
+            Learn More <span aria-hidden="true">&rarr;</span>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── Company Values Strip — §6.1 ───── -->
+  <!-- bg-secondary: confident full-width teal band. One of two strong bg-colour uses. -->
+  <section class="py-16 md:py-20 bg-secondary">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/20">
+
+        <!-- Value 1: Ownership — §6.1 spec (verbatim) -->
+        <div class="flex flex-col items-start gap-4 py-8 md:py-0 md:px-10 first:md:pl-0 last:md:pr-0 reveal">
+          <div
+            class="w-10 h-10 flex items-center justify-center shrink-0"
+            aria-hidden="true"
+          >
+            <!-- Ownership icon: shield/check — line-art, white, 28px -->
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <polyline points="9 12 11 14 15 10" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-heading font-semibold text-white text-lg mb-1">Ownership</h3>
+            <p class="font-body text-white/80 text-sm leading-relaxed">
+              We build and ship. No outsourcing of accountability.
+            </p>
+          </div>
+        </div>
+
+        <!-- Value 2: Initiative — §6.1 spec (verbatim) -->
+        <div class="flex flex-col items-start gap-4 py-8 md:py-0 md:px-10 reveal">
+          <div
+            class="w-10 h-10 flex items-center justify-center shrink-0"
+            aria-hidden="true"
+          >
+            <!-- Initiative icon: lightning bolt — line-art, white, 28px -->
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-heading font-semibold text-white text-lg mb-1">Initiative</h3>
+            <p class="font-body text-white/80 text-sm leading-relaxed">
+              We identify problems and move. Waiting is not a strategy.
+            </p>
+          </div>
+        </div>
+
+        <!-- Value 3: Craftsmanship — §6.1 spec (verbatim) -->
+        <div class="flex flex-col items-start gap-4 py-8 md:py-0 md:px-10 reveal">
+          <div
+            class="w-10 h-10 flex items-center justify-center shrink-0"
+            aria-hidden="true"
+          >
+            <!-- Craftsmanship icon: precision target — line-art, white, 28px -->
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <circle cx="12" cy="12" r="6" />
+              <circle cx="12" cy="12" r="2" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-heading font-semibold text-white text-lg mb-1">Craftsmanship</h3>
+            <p class="font-body text-white/80 text-sm leading-relaxed">
+              High-precision work over volume. Every detail is intentional.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

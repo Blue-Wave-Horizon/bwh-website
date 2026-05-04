@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   Design tokens — Tailwind v4 CSS-first configuration
+   Colours and fonts from the Blue Wave Horizon design system
+───────────────────────────────────────────────────────────── */
+@theme {
+  /* Fonts — §2 spec */
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+
+  /* Colour palette — §3 spec */
+  --color-primary: #18d8eb;
+  --color-secondary: #0a718d;
+  --color-accent: #fa8526;
+  --color-cream: #faf8f5;
+  --color-cream-mid: #f0ece4;
+  --color-cream-dark: #e8e2d8;
+  --color-ink: #1a1a2e;
+  --color-ink-mid: #3d3d52;
+  --color-muted: #7a7a8c;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Base styles
+   Set on <body> so there is no flash of white during page load
+───────────────────────────────────────────────────────────── */
+body {
+  background-color: #faf8f5;
+  color: #1a1a2e;
+  font-family: 'Nunito', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Scroll-triggered fade-in-up
+   Managed by IntersectionObserver in BaseLayout.astro
+───────────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up-hidden {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: none;
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.55s ease forwards;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Scroll chevron bounce — 2 s loop (§6.1)
+───────────────────────────────────────────────────────────── */
+@keyframes bounce-chevron {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.animate-bounce-chevron {
+  animation: bounce-chevron 2s ease-in-out infinite;
+}

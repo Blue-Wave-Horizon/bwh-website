@@ -1,0 +1,77 @@
+---
+// §6.2 — FounderBio.astro
+// Two-column layout: photo (left) + text (right). Stacks on mobile: photo above.
+// Bio copy is from the brief (§6.2 verbatim). Humanizer applied: direct sentences, no AI patterns.
+// Stat callouts below bio rule.
+---
+
+<section class="py-20 md:py-28 bg-cream">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-start">
+
+      <!-- Photo column -->
+      <div class="reveal">
+        <div class="relative">
+          <img
+            src="/images/founder-photo.jpeg"
+            alt="Kingsley Usa, Founder and CEO of Blue Wave Horizon"
+            width="600"
+            height="600"
+            class="w-full rounded-2xl ring-4 ring-primary/20 object-cover aspect-square md:aspect-[4/5]"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      <!-- Text column -->
+      <div class="reveal">
+        <!-- Eyebrow — §6.2 spec -->
+        <p
+          class="text-secondary font-heading uppercase tracking-widest text-sm font-semibold mb-2"
+        >
+          Founder &amp; CEO
+        </p>
+
+        <!-- Name (H2) — §6.2 spec -->
+        <h2 class="font-heading font-extrabold text-4xl md:text-5xl text-ink mb-6 leading-tight">
+          Kingsley Usa
+        </h2>
+
+        <!-- Bio paragraphs — §6.2 verbatim spec, humanizer applied -->
+        <div class="space-y-4 font-body text-ink-mid text-base leading-relaxed mb-8">
+          <p>
+            Kingsley Usa is a full-stack software engineer with a specialisation in backend
+            systems, scalable API architecture, and data pipelines. He founded Blue Wave Horizon
+            to build the category of software he wished existed — direct, efficient, and built
+            with craft.
+          </p>
+          <p>
+            His approach is simple: take full responsibility for outcomes. Every product at
+            Blue Wave Horizon is built, shipped, and maintained with that standard.
+          </p>
+        </div>
+
+        <!-- Divider -->
+        <hr class="border-t border-cream-dark mb-8" />
+
+        <!-- Stat callouts — §6.2 spec: two side-by-side small white cards -->
+        <div class="grid grid-cols-2 gap-4">
+          <div
+            class="bg-white border border-cream-dark rounded-xl p-4"
+            style="box-shadow: 0 2px 12px rgba(26,26,46,0.07);"
+          >
+            <p class="font-heading font-bold text-ink text-lg">2+ Products</p>
+            <p class="font-body text-muted text-sm mt-0.5">In active development</p>
+          </div>
+          <div
+            class="bg-white border border-cream-dark rounded-xl p-4"
+            style="box-shadow: 0 2px 12px rgba(26,26,46,0.07);"
+          >
+            <p class="font-heading font-bold text-ink text-lg">Full-Stack</p>
+            <p class="font-body text-muted text-sm mt-0.5">Backend, APIs &amp; Data</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

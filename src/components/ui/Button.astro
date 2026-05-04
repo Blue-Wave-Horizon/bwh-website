@@ -1,0 +1,71 @@
+---
+// §7 — Button.astro
+// Renders as <a> when href is provided, otherwise <button>.
+// Variants: primary | outline | accent | muted
+// Disabled: aria-disabled + no click handler (muted state for "Coming Soon").
+
+interface Props {
+  href?: string;
+  variant: 'primary' | 'outline' | 'accent' | 'muted';
+  disabled?: boolean;
+  external?: boolean; // adds target="_blank" rel="noopener noreferrer"
+  type?: 'button' | 'submit';
+  class?: string;
+  id?: string;
+}
+
+const {
+  href,
+  variant,
+  disabled = false,
+  external = false,
+  type = 'button',
+  class: className = '',
+  id,
+} = Astro.props;
+
+// §3 Button Styles spec
+const variantClasses: Record<string, string> = {
+  primary:
+    'bg-primary text-ink font-heading font-semibold px-6 py-3 rounded-lg hover:bg-secondary hover:text-white transition-colors duration-150',
+  outline:
+    'border-2 border-primary text-secondary font-heading font-semibold px-6 py-3 rounded-lg hover:bg-primary hover:text-ink transition-colors duration-150',
+  accent:
+    'bg-accent text-white font-heading font-semibold px-6 py-3 rounded-lg hover:opacity-90 transition-opacity duration-150',
+  muted:
+    'bg-cream-dark text-muted font-heading font-semibold px-6 py-3 rounded-lg cursor-not-allowed opacity-60',
+};
+
+const base = `inline-flex items-center justify-center gap-2 ${variantClasses[variant]} ${className}`;
+const disabledClasses = disabled ? ' opacity-60 cursor-not-allowed pointer-events-none' : '';
+const classes = base + disabledClasses;
+---
+
+{
+  href && !disabled ? (
+    <a
+      href={href}
+      id={id}
+      class={classes}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+    >
+      <slot />
+    </a>
+  ) : href && disabled ? (
+    <a
+      href="#"
+      id={id}
+      class={classes}
+      aria-disabled="true"
+      tabindex="-1"
+      onclick="return false;"
+    >
+      <slot />
+    </a>
+  ) : (
+    <button id={id} type={type} class={classes} disabled={disabled} aria-disabled={disabled ? 'true' : undefined}>
+      <slot />
+    </button>
+  )
+}
