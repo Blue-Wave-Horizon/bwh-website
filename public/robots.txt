@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://bluewavehorizon.com/sitemap.xml
+Sitemap: https://bluewavehorizon.dwellr.ng/sitemap.xml
