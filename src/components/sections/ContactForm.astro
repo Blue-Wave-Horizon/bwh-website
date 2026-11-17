@@ -3,6 +3,8 @@
 // Fields: Full name, Email, Subject (optional), Message.
 // States: default | loading | success | error.
 // Submits via fetch() POST to PUBLIC_WORKER_URL. On error the form is kept as typed.
+import Email from '../ui/Email.astro';
+
 const workerUrl = import.meta.env.PUBLIC_WORKER_URL ?? '';
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
 const field =
@@ -43,8 +45,8 @@ const field =
 
     {/* Honeypot field: hidden from users & screen readers, catches auto-filling bots */}
     <div class="sr-only" aria-hidden="true">
-      <label for="website">Website</label>
-      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      <label for="bwh-hp">Leave this field empty</label>
+      <input id="bwh-hp" name="bwh_hp" type="text" tabindex="-1" autocomplete="off" />
     </div>
 
     {turnstileSiteKey && (
@@ -53,7 +55,7 @@ const field =
 
     <p id="form-error" class="hidden rounded border border-accent p-4 text-[15px] text-ink" role="alert">
       That didn't send. Check that your name, email and message are filled in and try again, or
-      email <a href="mailto:hello@bluewavehz.com" class="font-bold text-link underline">hello@bluewavehz.com</a>.
+      email <Email class="font-bold text-link underline" />.
     </p>
 
     <button
@@ -71,7 +73,15 @@ const field =
 </div>
 
 {turnstileSiteKey && (
-  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <>
+    <script is:inline>
+      // Match the Turnstile widget to the site theme rather than the device setting
+      document.querySelectorAll('.cf-turnstile').forEach(function (el) {
+        el.setAttribute('data-theme', document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+      });
+    </script>
+    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  </>
 )}
 
 <script define:vars={{ workerUrl, hasTurnstile: Boolean(turnstileSiteKey) }}>
@@ -93,7 +103,7 @@ const field =
     const email = (form.elements.namedItem('email')).value.trim();
     const subject = (form.elements.namedItem('subject')).value.trim();
     const message = (form.elements.namedItem('message')).value.trim();
-    const website = (form.elements.namedItem('website'))?.value ?? '';
+    const bwh_hp = (form.elements.namedItem('bwh_hp'))?.value ?? '';
     const turnstileToken = (form.elements.namedItem('cf-turnstile-response'))?.value ?? '';
 
     if (!name || !email || !message || (hasTurnstile && !turnstileToken)) {
@@ -110,7 +120,7 @@ const field =
       const res = await fetch(workerUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, subject, message, website, turnstileToken }),
+        body: JSON.stringify({ name, email, subject, message, bwh_hp, turnstileToken }),
       });
 
       if (res.ok) {

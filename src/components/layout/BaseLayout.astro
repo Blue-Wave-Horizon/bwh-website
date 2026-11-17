@@ -58,6 +58,20 @@ const ogImageUrl = new URL(ogImage, Astro.site);
     </main>
     <Footer />
 
+    <!-- Builds the email links from <Email /> (keeps addresses out of the raw HTML) -->
+    <script is:inline>
+      (function () {
+        var rev = function (s) {
+          return s.split('').reverse().join('');
+        };
+        document.querySelectorAll('[data-mail-u]').forEach(function (a) {
+          var address = rev(a.dataset.mailU) + '@' + rev(a.dataset.mailD);
+          a.href = 'mailto:' + address;
+          a.textContent = address;
+        });
+      })();
+    </script>
+
     <script>
       // Scroll-triggered fade-in for elements marked .reveal
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

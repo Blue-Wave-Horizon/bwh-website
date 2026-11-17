@@ -60,7 +60,7 @@ export default {
       email?: string;
       subject?: string;
       message?: string;
-      website?: string;
+      bwh_hp?: string;
       turnstileToken?: string;
     };
     try {
@@ -73,7 +73,7 @@ export default {
     }
 
     // Honeypot: silently accept bot submissions without sending email
-    if (typeof body.website === 'string' && body.website.trim().length > 0) {
+    if (typeof body.bwh_hp === 'string' && body.bwh_hp.trim().length > 0) {
       return new Response(JSON.stringify({ success: true }), {
         status: 200,
         headers: { ...headers, 'Content-Type': 'application/json' },
