@@ -18,13 +18,22 @@ const ALLOWED_ORIGINS = [
   'http://localhost:4321', // Astro dev server
 ];
 
+// Allow bwh-website production and Cloudflare Workers preview/branch URLs
+const WORKERS_DEV_ORIGIN_RE =
+  /^https:\/\/([a-z0-9-]+-)?bwh-website\.blue-wave-horizon\.workers\.dev$/;
+
+function isAllowedOrigin(origin: string | null): origin is string {
+  if (!origin) return false;
+  return ALLOWED_ORIGINS.includes(origin) || WORKERS_DEV_ORIGIN_RE.test(origin);
+}
+
 function corsHeaders(origin: string | null): HeadersInit {
-  const allowed =
-    origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  const allowed = isAllowedOrigin(origin) ? origin : ALLOWED_ORIGINS[0];
   return {
     'Access-Control-Allow-Origin': allowed,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
+    Vary: 'Origin',
   };
 }
 
@@ -108,10 +117,15 @@ export default {
     };
 
     try {
+      const rawKey = (env.ZEPTO_API_KEY ?? '').trim();
+      const authHeader = rawKey.startsWith('Zoho-enczapikey ')
+        ? rawKey
+        : `Zoho-enczapikey ${rawKey}`;
+
       const zeploResponse = await fetch('https://cpaas.zoho.com/v1.1/email', {
         method: 'POST',
         headers: {
-          Authorization: `Zoho-enczapikey ${env.ZEPTO_API_KEY}`,
+          Authorization: authHeader,
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
@@ -120,11 +134,22 @@ export default {
 
       if (!zeploResponse.ok) {
         const errText = await zeploResponse.text();
-        console.error('ZeptoMail error:', errText);
-        return new Response(JSON.stringify({ error: 'Failed to send email' }), {
-          status: 502,
-          headers: { ...headers, 'Content-Type': 'application/json' },
-        });
+        console.error(
+          'ZeptoMail error:',
+          zeploResponse.status,
+          zeploResponse.statusText,
+          errText
+        );
+        return new Response(
+          JSON.stringify({
+            error: 'Failed to send email',
+            upstreamStatus: zeploResponse.status,
+          }),
+          {
+            status: 502,
+            headers: { ...headers, 'Content-Type': 'application/json' },
+          }
+        );
       }
 
       return new Response(JSON.stringify({ success: true }), {
