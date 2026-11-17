@@ -50,7 +50,7 @@ const field =
     </div>
 
     {turnstileSiteKey && (
-      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="auto"></div>
+      <div id="turnstile-container"></div>
     )}
 
     <p id="form-error" class="hidden rounded border border-accent p-4 text-[15px] text-ink" role="alert">
@@ -73,24 +73,44 @@ const field =
 </div>
 
 {turnstileSiteKey && (
-  <>
-    <script is:inline>
-      // Match the Turnstile widget to the site theme rather than the device setting
-      document.querySelectorAll('.cf-turnstile').forEach(function (el) {
-        el.setAttribute('data-theme', document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
-      });
-    </script>
-    <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-  </>
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad" async defer></script>
 )}
 
-<script define:vars={{ workerUrl, hasTurnstile: Boolean(turnstileSiteKey) }}>
+<script define:vars={{ workerUrl, hasTurnstile: Boolean(turnstileSiteKey), turnstileSiteKey }}>
   const form = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');
   const submitLabel = document.getElementById('submit-label');
   const spinner = document.getElementById('submit-spinner');
   const successPanel = document.getElementById('form-success');
   const errorPanel = document.getElementById('form-error');
+
+  let turnstileWidgetId = null;
+
+  function renderTurnstile() {
+    if (!hasTurnstile || !window.turnstile) return;
+    const container = document.getElementById('turnstile-container');
+    if (!container) return;
+    if (turnstileWidgetId !== null) {
+      window.turnstile.remove(turnstileWidgetId);
+      turnstileWidgetId = null;
+    }
+    const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+    turnstileWidgetId = window.turnstile.render(container, {
+      sitekey: turnstileSiteKey,
+      theme,
+    });
+  }
+
+  if (hasTurnstile) {
+    window.onTurnstileLoad = renderTurnstile;
+    if (window.turnstile) renderTurnstile();
+
+    // Re-render Turnstile when the site's data-theme attribute is toggled
+    new MutationObserver(renderTurnstile).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+  }
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -133,8 +153,8 @@ const field =
       }
     } catch {
       // Error state — show error, keep form intact, reset Turnstile for retry
-      if (hasTurnstile && window.turnstile) {
-        window.turnstile.reset();
+      if (hasTurnstile && window.turnstile && turnstileWidgetId !== null) {
+        window.turnstile.reset(turnstileWidgetId);
       }
       errorPanel?.classList.remove('hidden');
       submitBtn.disabled = false;
