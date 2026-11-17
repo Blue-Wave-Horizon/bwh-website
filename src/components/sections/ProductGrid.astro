@@ -1,33 +1,15 @@
 ---
-// §6.3 — ProductGrid.astro
-// Driven by src/data/products.ts. grid-cols-1 md:grid-cols-2.
-// Used on the Products overview page and accepts an optional limit for the home page tease.
-
+// ProductGrid.astro — driven by src/data/products.ts.
 import { products } from '../../data/products';
 import ProductCard from '../ui/ProductCard.astro';
 
 interface Props {
   limit?: number;
 }
-
 const { limit } = Astro.props;
 const displayProducts = limit ? products.slice(0, limit) : products;
 ---
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-  {
-    displayProducts.map((product) => (
-      <div class="reveal">
-        <ProductCard
-          name={product.name}
-          category={product.category}
-          description={product.description}
-          href={`/products/${product.slug}`}
-          imageSrc={product.imageSrc}
-          imageAlt={product.imageAlt}
-          badgeColor={product.badgeColor}
-        />
-      </div>
-    ))
-  }
+<div class="flex flex-col gap-5 sm:gap-6">
+  {displayProducts.map((product) => <ProductCard product={product} />)}
 </div>

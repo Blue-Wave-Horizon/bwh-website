@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://bluewavehorizon.dwellr.ng',
+  site: 'https://bluewavehz.com',
   vite: {
     plugins: [tailwindcss()]
   },

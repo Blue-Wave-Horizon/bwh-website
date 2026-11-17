@@ -1,34 +1,92 @@
 @import "tailwindcss";
 
+/* Dark mode is driven by data-theme on <html> (set in BaseLayout before paint). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 /* ─────────────────────────────────────────────────────────────
-   Design tokens — Tailwind v4 CSS-first configuration
-   Colours and fonts from the Blue Wave Horizon design system
+   Theme variables — light is the default, dark overrides below.
+   Brand colours (cyan / teal / orange) are fixed in both themes.
 ───────────────────────────────────────────────────────────── */
-@theme {
-  /* Fonts — §2 spec */
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --alt: #f7f7f9;
+  --card: #ffffff;
+  --ink: #1a1a2e;
+  --mid: #3d3d52;
+  --line: #ececf0;
+  --line2: #d9d9e0;
+  --field: #8a8a9c;
+  --link: #0a718d;
+  --navbtn-bg: #1a1a2e;
+  --navbtn-fg: #ffffff;
+  --panel: #0b0d12;
+  --panel-line: #23262f;
+  --foot: #5c5c6e;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #07090d;
+  --alt: #0d1016;
+  --card: #141821;
+  --ink: #f2f4f8;
+  --mid: #a3a8b8;
+  --line: #1e222b;
+  --line2: #2a2f3a;
+  --field: #6f7686;
+  --link: #18d8eb;
+  --navbtn-bg: #f2f4f8;
+  --navbtn-fg: #07090d;
+  --panel: #0d1016;
+  --panel-line: #1e222b;
+  --foot: #a3a8b8;
+}
+
+@theme inline {
+  /* Fonts — fixed brand fonts */
   --font-heading: 'Poppins', sans-serif;
   --font-body: 'Nunito', sans-serif;
 
-  /* Colour palette — §3 spec */
+  /* Brand colours — fixed */
   --color-primary: #18d8eb;
   --color-secondary: #0a718d;
   --color-accent: #fa8526;
-  --color-cream: #faf8f5;
-  --color-cream-mid: #f0ece4;
-  --color-cream-dark: #e8e2d8;
-  --color-ink: #1a1a2e;
-  --color-ink-mid: #3d3d52;
-  --color-muted: #7a7a8c;
+
+  /* Theme-aware colours */
+  --color-bg: var(--bg);
+  --color-alt: var(--alt);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-ink-mid: var(--mid);
+  --color-line: var(--line);
+  --color-line-strong: var(--line2);
+  --color-field: var(--field);
+  --color-link: var(--link);
+  --color-navbtn-bg: var(--navbtn-bg);
+  --color-navbtn-fg: var(--navbtn-fg);
+  --color-panel: var(--panel);
+  --color-panel-line: var(--panel-line);
+  --color-muted: var(--foot);
+
+  /* Older names, kept so existing markup (privacy policy) follows the theme */
+  --color-cream: var(--bg);
+  --color-cream-mid: var(--alt);
+  --color-cream-dark: var(--line2);
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Base styles
-   Set on <body> so there is no flash of white during page load
-───────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  background-color: #faf8f5;
-  color: #1a1a2e;
+  background-color: var(--bg);
+  color: var(--ink);
   font-family: 'Nunito', sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1,
@@ -38,14 +96,65 @@ h4 {
   font-family: 'Poppins', sans-serif;
 }
 
+:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 3px;
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-[1120px] px-5 sm:px-8;
+  }
+  .section {
+    @apply py-16 sm:py-24 lg:py-28;
+  }
+  .eyebrow {
+    @apply font-body text-sm font-semibold uppercase tracking-[0.08em] text-link;
+  }
+  .status {
+    @apply flex items-center gap-2.5 font-body text-sm font-bold uppercase tracking-[0.06em];
+  }
+  .h-display {
+    @apply font-heading font-semibold text-ink;
+    font-size: clamp(2.5rem, 7vw, 5.75rem);
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+  }
+  .h-page {
+    @apply font-heading font-semibold text-ink;
+    font-size: clamp(2.25rem, 6vw, 4.75rem);
+    line-height: 1.04;
+    letter-spacing: -0.045em;
+  }
+  .h-section {
+    @apply font-heading font-semibold text-ink;
+    font-size: clamp(1.875rem, 4vw, 3.25rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+  }
+  .h-card {
+    @apply font-heading text-2xl font-semibold tracking-[-0.02em] text-ink;
+  }
+  .lead {
+    @apply text-ink-mid;
+    font-size: clamp(1.0625rem, 1.6vw, 1.3125rem);
+    line-height: 1.55;
+  }
+  .card {
+    @apply rounded bg-card p-7 sm:p-10;
+  }
+  .text-link-arrow {
+    @apply inline-flex min-h-11 items-center font-body font-bold text-link transition-opacity duration-150 hover:opacity-80;
+  }
+}
+
 /* ─────────────────────────────────────────────────────────────
-   Scroll-triggered fade-in-up
-   Managed by IntersectionObserver in BaseLayout.astro
+   Scroll-triggered fade-in-up (IntersectionObserver in BaseLayout)
 ───────────────────────────────────────────────────────────── */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -55,27 +164,22 @@ h4 {
 
 .fade-in-up-hidden {
   opacity: 0;
-  transform: translateY(24px);
-  transition: none;
+  transform: translateY(16px);
 }
 
 .fade-in-up {
-  animation: fadeInUp 0.55s ease forwards;
+  animation: fadeInUp 0.5s ease forwards;
 }
 
-/* ─────────────────────────────────────────────────────────────
-   Scroll chevron bounce — 2 s loop (§6.1)
-───────────────────────────────────────────────────────────── */
-@keyframes bounce-chevron {
-  0%,
-  100% {
-    transform: translateY(0);
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  50% {
-    transform: translateY(8px);
+  .fade-in-up-hidden {
+    opacity: 1;
+    transform: none;
   }
-}
-
-.animate-bounce-chevron {
-  animation: bounce-chevron 2s ease-in-out infinite;
+  .fade-in-up {
+    animation: none;
+  }
 }

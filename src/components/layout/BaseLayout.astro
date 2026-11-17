@@ -9,7 +9,9 @@ interface Props {
   ogImage?: string;
 }
 
-const { title, description, ogImage = '/images/og-default.png' } = Astro.props;
+const { title, description, ogImage = '/images/logo.png' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImageUrl = new URL(ogImage, Astro.site);
 ---
 
 <!doctype html>
@@ -17,48 +19,69 @@ const { title, description, ogImage = '/images/og-default.png' } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Theme: saved choice first, otherwise the device setting. Runs before paint to avoid a flash. -->
+    <script is:inline>
+      (function () {
+        var saved = null;
+        try {
+          saved = localStorage.getItem('bwh-theme');
+        } catch (e) {}
+        var dark =
+          saved === 'dark' ||
+          (saved !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      })();
+    </script>
     <link rel="icon" type="image/png" href="/images/logo.png" />
-    <!-- Google Fonts — §2 spec -->
+    <link rel="canonical" href={canonical} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <!-- Open Graph — §9 spec -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
   </head>
   <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded focus:bg-card focus:px-4 focus:py-3 focus:text-ink"
+    >
+      Skip to content
+    </a>
     <Header />
-    <main>
+    <main id="main">
       <slot />
     </main>
     <Footer />
 
-    <!-- Scroll-triggered fade-in-up via IntersectionObserver — §3 spec (Motion) -->
     <script>
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.remove('fade-in-up-hidden');
-              entry.target.classList.add('fade-in-up');
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
-      );
-
-      document.querySelectorAll('.reveal').forEach((el) => {
-        el.classList.add('fade-in-up-hidden');
-        observer.observe(el);
-      });
+      // Scroll-triggered fade-in for elements marked .reveal
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduce && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.remove('fade-in-up-hidden');
+                entry.target.classList.add('fade-in-up');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+        );
+        document.querySelectorAll('.reveal').forEach((el) => {
+          el.classList.add('fade-in-up-hidden');
+          observer.observe(el);
+        });
+      }
     </script>
   </body>
 </html>

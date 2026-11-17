@@ -11,6 +11,8 @@ export interface Env {
 
 // §8 spec: update ALLOWED_ORIGINS when domain is confirmed.
 const ALLOWED_ORIGINS = [
+  'https://bluewavehz.com',
+  'https://www.bluewavehz.com',
   'https://bluewavehorizon.dwellr.ng',
   'https://www.bluewavehorizon.dwellr.ng',
   'http://localhost:4321', // Astro dev server

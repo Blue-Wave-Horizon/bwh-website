@@ -1,0 +1,36 @@
+---
+// Page hero for inner pages. `centered` is used on product pages.
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  centered?: boolean;
+  status?: 'live' | 'coming-soon';
+  statusLabel?: string;
+}
+const { eyebrow, title, lead, centered = false, status, statusLabel } = Astro.props;
+---
+
+<section
+  class:list={[
+    'wrap flex flex-col gap-5 pb-14 pt-16 sm:gap-6 sm:pb-20 sm:pt-24 lg:pt-28',
+    centered && 'items-center text-center',
+  ]}
+>
+  {
+    status ? (
+      <p class:list={['status', status === 'live' ? 'text-link' : 'text-ink-mid']}>
+        <span
+          aria-hidden="true"
+          class:list={['h-2 w-2 rounded-full', status === 'live' ? 'bg-primary' : 'bg-accent']}
+        />
+        <span>{statusLabel}</span>
+      </p>
+    ) : (
+      eyebrow && <p class="eyebrow">{eyebrow}</p>
+    )
+  }
+  <h1 class:list={[centered ? 'h-display' : 'h-page max-w-[860px]']}>{title}</h1>
+  {lead && <p class:list={['lead max-w-[640px]', centered && 'sm:text-2xl']}>{lead}</p>}
+  <slot />
+</section>

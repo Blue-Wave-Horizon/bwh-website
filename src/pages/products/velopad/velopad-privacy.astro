@@ -3,6 +3,7 @@
 // Linked from the VeloPad product page.
 
 import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import PageHero from '../../../components/sections/PageHero.astro';
 ---
 
 <BaseLayout
@@ -10,39 +11,36 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
   description="VeloPad does not collect, store, or share your personal data. Read exactly what the app accesses, where it goes, and why."
 >
 
-  <!-- ───── Hero ───── -->
-  <section class="py-16 md:py-20 bg-cream relative overflow-hidden">
-    <div
-      class="absolute top-0 left-0 w-2/3 h-full pointer-events-none"
-      style="background: radial-gradient(ellipse at top left, rgba(250,133,38,0.05) 0%, transparent 70%);"
-      aria-hidden="true"
-    ></div>
+  <PageHero eyebrow="VeloPad" title="Privacy Policy">
+    <p class="text-ink-mid">
+      Effective date: May 13, 2026 &nbsp;&middot;&nbsp; Developer: BWH (Blue Wave Horizon) &nbsp;&middot;&nbsp; App package: <code class="font-mono text-sm bg-alt px-1.5 py-0.5 rounded">com.bwh.velopad</code>
+    </p>
+  </PageHero>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="max-w-2xl">
-        <span
-          class="text-xs font-heading font-semibold uppercase tracking-wide px-3 py-1 rounded-full border bg-accent/10 text-accent border-accent/30 inline-block mb-5"
-        >
-          VeloPad
-        </span>
-        <h1 class="font-heading font-extrabold text-4xl md:text-5xl text-ink mb-4 leading-tight">
-          Privacy Policy
-        </h1>
-        <p class="font-body text-ink-mid text-base leading-relaxed">
-          Effective date: May 13, 2026 &nbsp;&middot;&nbsp; Developer: BWH (Blue Wave Horizon) &nbsp;&middot;&nbsp; App package: <code class="font-mono text-sm bg-cream-mid px-1.5 py-0.5 rounded">com.bwh.velopad</code>
-        </p>
-      </div>
-    </div>
-  </section>
+  <section class="wrap flex flex-col gap-10 pb-20 sm:pb-28 lg:flex-row lg:items-start lg:gap-20">
+    <nav
+      class="flex flex-col border-y border-line-strong py-5 text-[15px] lg:sticky lg:top-24 lg:w-[280px] lg:shrink-0 lg:border-y-0 lg:py-0"
+      aria-label="On this page"
+    >
+      <p class="mb-2 text-sm font-semibold uppercase tracking-[0.06em] text-ink-mid">On this page</p>
+      <a href="#s1" class="inline-flex min-h-10 items-center text-ink-mid transition-colors duration-150 hover:text-ink">1. Overview</a>
+      <a href="#s2" class="inline-flex min-h-10 items-center text-ink-mid transition-colors duration-150 hover:text-ink">2. Data Collected and How It Is Used</a>
+      <a href="#s3" class="inline-flex min-h-10 items-center text-ink-mid transition-colors duration-150 hover:text-ink">3. Permissions Used (Android)</a>
+      <a href="#s4" class="inline-flex min-h-10 items-center text-ink-mid transition-colors duration-150 hover:text-ink">4. Data Not Collected</a>
+      <a href="#s5" class="inline-flex min-h-10 items-center text-ink-mid transition-colors duration-150 hover:text-ink">5. Third-Party Services</a>
+      <a href="#s6" class="inline-flex min-h-10 items-center text-ink-mid transition-colors duration-150 hover:text-ink">6. Data Storage and Security</a>
+      <a href="#s7" class="inline-flex min-h-10 items-center text-ink-mid transition-colors duration-150 hover:text-ink">7. Children's Privacy</a>
+      <a href="#s8" class="inline-flex min-h-10 items-center text-ink-mid transition-colors duration-150 hover:text-ink">8. Data Sharing</a>
+      <a href="#s9" class="inline-flex min-h-10 items-center text-ink-mid transition-colors duration-150 hover:text-ink">9. Your Rights</a>
+      <a href="#s10" class="inline-flex min-h-10 items-center text-ink-mid transition-colors duration-150 hover:text-ink">10. Changes to This Policy</a>
+      <a href="#s11" class="inline-flex min-h-10 items-center text-ink-mid transition-colors duration-150 hover:text-ink">11. Contact</a>
+    </nav>
 
-  <!-- ───── Content ───── -->
-  <section class="py-16 md:py-20 bg-cream-mid">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-3xl mx-auto prose-policy">
+    <div class="min-w-0 max-w-[720px] [overflow-wrap:anywhere] lg:flex-1 prose-policy">
 
         <!-- ── 1. Overview ── -->
         <div class="mb-14 reveal">
-          <h2 class="font-heading font-bold text-2xl md:text-3xl text-ink mb-4">1. Overview</h2>
+          <h2 id="s1" class="scroll-mt-24 font-heading font-bold text-2xl md:text-3xl text-ink mb-4">1. Overview</h2>
           <div class="font-body text-ink-mid text-base leading-relaxed space-y-4">
             <p>
               VeloPad is a local-network game controller app made up of two parts:
@@ -62,7 +60,7 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
 
         <!-- ── 2. Data Collected ── -->
         <div class="mb-14 reveal">
-          <h2 class="font-heading font-bold text-2xl md:text-3xl text-ink mb-6">2. Data Collected and How It Is Used</h2>
+          <h2 id="s2" class="scroll-mt-24 font-heading font-bold text-2xl md:text-3xl text-ink mb-6">2. Data Collected and How It Is Used</h2>
 
           <h3 class="font-heading font-bold text-lg text-ink mb-4">2.1 Android App</h3>
 
@@ -104,7 +102,7 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
             <h4 class="font-heading font-semibold text-base text-ink mb-2">2.1.4 App Preferences and Settings</h4>
             <div class="font-body text-ink-mid text-sm leading-relaxed space-y-2">
               <p><strong class="text-ink">What:</strong> User preferences including polling rate, selected profile name, Wi-Fi connection settings (IP/port), and boolean flags (e.g. TCP mode).</p>
-              <p><strong class="text-ink">Where it is stored:</strong> In Android <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">SharedPreferences</code> on the device. Local only, never uploaded.</p>
+              <p><strong class="text-ink">Where it is stored:</strong> In Android <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">SharedPreferences</code> on the device. Local only, never uploaded.</p>
               <p><strong class="text-ink">Access:</strong> Only VeloPad reads these preferences. No other app or service has access.</p>
             </div>
           </div>
@@ -113,7 +111,7 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
           <div class="mb-8 pl-4 border-l-2 border-accent/30">
             <h4 class="font-heading font-semibold text-base text-ink mb-2">2.1.5 Controller Profiles</h4>
             <div class="font-body text-ink-mid text-sm leading-relaxed space-y-2">
-              <p><strong class="text-ink">What:</strong> Named controller layout configurations (button placements, gyro settings, curve settings), stored as <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">.vpd</code> files.</p>
+              <p><strong class="text-ink">What:</strong> Named controller layout configurations (button placements, gyro settings, curve settings), stored as <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">.vpd</code> files.</p>
               <p><strong class="text-ink">Where:</strong> Stored locally on your device. You can optionally sync profiles between the Android app and the PC Client over your local Wi-Fi network.</p>
               <p><strong class="text-ink">Where it goes:</strong> Profile sync transfers files directly between your phone and your PC over the local network. Profile data never leaves your local network.</p>
             </div>
@@ -125,9 +123,9 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
             <div class="font-body text-ink-mid text-sm leading-relaxed space-y-2">
               <p><strong class="text-ink">What:</strong> A Google Play subscription purchase token issued by Google Play Billing when you subscribe to VeloPad Pro.</p>
               <p><strong class="text-ink">Why:</strong> To verify that your subscription is active and to obtain a signed entitlement token.</p>
-              <p><strong class="text-ink">Where it goes:</strong> Sent via HTTPS POST to a Firebase Cloud Function operated by the developer (<code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">https://us-central1-velopad-be.cloudfunctions.net/verify</code>). The function validates the token against the Google Play Developer API and returns a signed JWT. <strong class="text-ink">The purchase token is not stored on the server</strong> — it is used transiently for verification only.</p>
-              <p><strong class="text-ink">What the server receives:</strong> The purchase token and your app's package name (<code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">com.bwh.velopad</code>). No other personal data (name, email, device ID, IP address) is transmitted.</p>
-              <p><strong class="text-ink">What the server returns:</strong> A signed JWT encoding only your subscription tier (<code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">PRO</code>) and expiry time. No personal information is included.</p>
+              <p><strong class="text-ink">Where it goes:</strong> Sent via HTTPS POST to a Firebase Cloud Function operated by the developer (<code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">https://us-central1-velopad-be.cloudfunctions.net/verify</code>). The function validates the token against the Google Play Developer API and returns a signed JWT. <strong class="text-ink">The purchase token is not stored on the server</strong> — it is used transiently for verification only.</p>
+              <p><strong class="text-ink">What the server receives:</strong> The purchase token and your app's package name (<code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">com.bwh.velopad</code>). No other personal data (name, email, device ID, IP address) is transmitted.</p>
+              <p><strong class="text-ink">What the server returns:</strong> A signed JWT encoding only your subscription tier (<code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">PRO</code>) and expiry time. No personal information is included.</p>
             </div>
           </div>
 
@@ -136,7 +134,7 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
             <h4 class="font-heading font-semibold text-base text-ink mb-2">2.1.7 Entitlement JWT <span class="font-normal text-muted">(VeloPad Pro subscribers only)</span></h4>
             <div class="font-body text-ink-mid text-sm leading-relaxed space-y-2">
               <p><strong class="text-ink">What:</strong> The signed JWT returned from the verification server.</p>
-              <p><strong class="text-ink">Where it is stored:</strong> In <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">EncryptedSharedPreferences</code> on your Android device (AES-256 encrypted, protected by the Android Keystore). Local only.</p>
+              <p><strong class="text-ink">Where it is stored:</strong> In <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">EncryptedSharedPreferences</code> on your Android device (AES-256 encrypted, protected by the Android Keystore). Local only.</p>
               <p><strong class="text-ink">Why:</strong> So the app can confirm your Pro status on launch without an internet round-trip every time.</p>
               <p><strong class="text-ink">Where it goes:</strong> When your PC Client connects and queries your entitlement status, the JWT is transmitted over the local Wi-Fi connection. The PC Client verifies the JWT's cryptographic signature locally, offline. The JWT never leaves your local network during gameplay.</p>
             </div>
@@ -158,7 +156,7 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
           <div class="mb-8 pl-4 border-l-2 border-cream-dark">
             <h4 class="font-heading font-semibold text-base text-ink mb-2">2.2.2 Controller Profiles</h4>
             <div class="font-body text-ink-mid text-sm leading-relaxed space-y-2">
-              <p><strong class="text-ink">What:</strong> Controller layout configurations stored as <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">.vpd</code> files in the PC Client's local <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">profiles/</code> directory.</p>
+              <p><strong class="text-ink">What:</strong> Controller layout configurations stored as <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">.vpd</code> files in the PC Client's local <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">profiles/</code> directory.</p>
               <p><strong class="text-ink">Where:</strong> Local disk only. Never uploaded.</p>
               <p><strong class="text-ink">Profile sync:</strong> When the user triggers a sync, files are transferred directly between PC and phone over the local Wi-Fi network.</p>
             </div>
@@ -177,8 +175,8 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
           <div class="mb-8 pl-4 border-l-2 border-cream-dark">
             <h4 class="font-heading font-semibold text-base text-ink mb-2">2.2.4 Update Check</h4>
             <div class="font-body text-ink-mid text-sm leading-relaxed space-y-2">
-              <p><strong class="text-ink">What:</strong> The PC Client optionally checks for software updates by querying the GitHub Releases API at <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">https://api.github.com/repos/Blue-Wave-Horizon/velopad-releases/releases/latest</code>.</p>
-              <p><strong class="text-ink">What is sent:</strong> A standard HTTPS GET request with the <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">User-Agent</code> header <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">VeloPad-Update-Checker</code>. No personal data, no device identifiers, no user information.</p>
+              <p><strong class="text-ink">What:</strong> The PC Client optionally checks for software updates by querying the GitHub Releases API at <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">https://api.github.com/repos/Blue-Wave-Horizon/velopad-releases/releases/latest</code>.</p>
+              <p><strong class="text-ink">What is sent:</strong> A standard HTTPS GET request with the <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">User-Agent</code> header <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">VeloPad-Update-Checker</code>. No personal data, no device identifiers, no user information.</p>
               <p><strong class="text-ink">What is received:</strong> The latest release version number and a download URL, displayed in the UI only.</p>
               <p><strong class="text-ink">When:</strong> Only when you open the app or manually trigger an update check. You can block this request at the firewall without affecting any app functionality.</p>
             </div>
@@ -195,7 +193,7 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
 
         <!-- ── 3. Permissions ── -->
         <div class="mb-14 reveal">
-          <h2 class="font-heading font-bold text-2xl md:text-3xl text-ink mb-6">3. Permissions Used (Android)</h2>
+          <h2 id="s3" class="scroll-mt-24 font-heading font-bold text-2xl md:text-3xl text-ink mb-6">3. Permissions Used (Android)</h2>
           <div class="overflow-x-auto">
             <table class="w-full font-body text-sm text-ink-mid border-collapse">
               <thead>
@@ -239,7 +237,7 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
 
         <!-- ── 4. Data Not Collected ── -->
         <div class="mb-14 reveal">
-          <h2 class="font-heading font-bold text-2xl md:text-3xl text-ink mb-4">4. Data Not Collected</h2>
+          <h2 id="s4" class="scroll-mt-24 font-heading font-bold text-2xl md:text-3xl text-ink mb-4">4. Data Not Collected</h2>
           <p class="font-body text-ink-mid text-base leading-relaxed mb-4">VeloPad does <strong class="text-ink">not</strong> collect any of the following:</p>
           <ul class="font-body text-ink-mid text-sm leading-relaxed list-disc pl-6 space-y-1.5">
             <li>Your name, email address, or any account credentials</li>
@@ -255,21 +253,21 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
 
         <!-- ── 5. Third-Party Services ── -->
         <div class="mb-14 reveal">
-          <h2 class="font-heading font-bold text-2xl md:text-3xl text-ink mb-6">5. Third-Party Services</h2>
+          <h2 id="s5" class="scroll-mt-24 font-heading font-bold text-2xl md:text-3xl text-ink mb-6">5. Third-Party Services</h2>
           <p class="font-body text-ink-mid text-base leading-relaxed mb-6">VeloPad interacts with two external services under specific, limited circumstances:</p>
 
           <div class="space-y-8">
             <div>
               <h3 class="font-heading font-bold text-lg text-ink mb-2">5.1 Google Play Billing (VeloPad Pro)</h3>
               <p class="font-body text-ink-mid text-sm leading-relaxed">
-                When you subscribe to VeloPad Pro, your purchase is processed by Google Play. Google's handling of payment data is governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-accent underline underline-offset-2">Google's Privacy Policy</a>. VeloPad receives only an opaque purchase token from Google — no payment card details or billing address are ever passed to VeloPad or its servers.
+                When you subscribe to VeloPad Pro, your purchase is processed by Google Play. Google's handling of payment data is governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-link underline underline-offset-2">Google's Privacy Policy</a>. VeloPad receives only an opaque purchase token from Google — no payment card details or billing address are ever passed to VeloPad or its servers.
               </p>
             </div>
 
             <div>
               <h3 class="font-heading font-bold text-lg text-ink mb-2">5.2 Firebase Cloud Functions (VeloPad Pro, Subscription Verification)</h3>
               <p class="font-body text-ink-mid text-sm leading-relaxed mb-3">
-                A Firebase Cloud Function hosted in the <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">us-central1</code> region (Google Cloud infrastructure) is called to validate your subscription token. This function:
+                A Firebase Cloud Function hosted in the <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">us-central1</code> region (Google Cloud infrastructure) is called to validate your subscription token. This function:
               </p>
               <ul class="font-body text-ink-mid text-sm leading-relaxed list-disc pl-6 space-y-1.5">
                 <li>Receives: your Google Play purchase token and package name</li>
@@ -278,14 +276,14 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
                 <li>Stores: nothing — the function is stateless and retains no data</li>
               </ul>
               <p class="font-body text-ink-mid text-sm leading-relaxed mt-3">
-                Firebase infrastructure logs (managed by Google) may record the IP address of the request as part of standard server-side access logging. VeloPad has no control over these logs; they are managed by Google under <a href="https://cloud.google.com/terms/data-processing-addendum" target="_blank" rel="noopener noreferrer" class="text-accent underline underline-offset-2">Google Cloud's data processing terms</a>.
+                Firebase infrastructure logs (managed by Google) may record the IP address of the request as part of standard server-side access logging. VeloPad has no control over these logs; they are managed by Google under <a href="https://cloud.google.com/terms/data-processing-addendum" target="_blank" rel="noopener noreferrer" class="text-link underline underline-offset-2">Google Cloud's data processing terms</a>.
               </p>
             </div>
 
             <div>
               <h3 class="font-heading font-bold text-lg text-ink mb-2">5.3 GitHub Releases API (PC Client Update Check)</h3>
               <p class="font-body text-ink-mid text-sm leading-relaxed">
-                The PC Client may contact <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">api.github.com</code> to check for updates. GitHub's privacy policy applies to this request: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer" class="text-accent underline underline-offset-2">GitHub General Privacy Statement</a>. No personal data is transmitted in this request.
+                The PC Client may contact <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">api.github.com</code> to check for updates. GitHub's privacy policy applies to this request: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer" class="text-link underline underline-offset-2">GitHub General Privacy Statement</a>. No personal data is transmitted in this request.
               </p>
             </div>
           </div>
@@ -293,7 +291,7 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
 
         <!-- ── 6. Data Storage and Security ── -->
         <div class="mb-14 reveal">
-          <h2 class="font-heading font-bold text-2xl md:text-3xl text-ink mb-6">6. Data Storage and Security</h2>
+          <h2 id="s6" class="scroll-mt-24 font-heading font-bold text-2xl md:text-3xl text-ink mb-6">6. Data Storage and Security</h2>
           <div class="overflow-x-auto">
             <table class="w-full font-body text-sm text-ink-mid border-collapse">
               <thead>
@@ -306,12 +304,12 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
               <tbody>
                 <tr class="border-b border-cream-dark">
                   <td class="py-3 pr-4 align-top leading-relaxed">App preferences (polling rate, IP, etc.)</td>
-                  <td class="py-3 pr-4 align-top leading-relaxed">Android <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">SharedPreferences</code></td>
+                  <td class="py-3 pr-4 align-top leading-relaxed">Android <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">SharedPreferences</code></td>
                   <td class="py-3 align-top leading-relaxed">Android OS file system protection</td>
                 </tr>
                 <tr class="border-b border-cream-dark">
                   <td class="py-3 pr-4 align-top leading-relaxed">Entitlement JWT</td>
-                  <td class="py-3 pr-4 align-top leading-relaxed">Android <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">EncryptedSharedPreferences</code></td>
+                  <td class="py-3 pr-4 align-top leading-relaxed">Android <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">EncryptedSharedPreferences</code></td>
                   <td class="py-3 align-top leading-relaxed">AES-256, Android Keystore</td>
                 </tr>
                 <tr class="border-b border-cream-dark">
@@ -321,7 +319,7 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
                 </tr>
                 <tr class="border-b border-cream-dark">
                   <td class="py-3 pr-4 align-top leading-relaxed">Controller profiles (PC)</td>
-                  <td class="py-3 pr-4 align-top leading-relaxed">Local <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">profiles/</code> folder</td>
+                  <td class="py-3 pr-4 align-top leading-relaxed">Local <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">profiles/</code> folder</td>
                   <td class="py-3 align-top leading-relaxed">OS file system (user's responsibility)</td>
                 </tr>
                 <tr>
@@ -337,7 +335,7 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
 
         <!-- ── 7. Children's Privacy ── -->
         <div class="mb-14 reveal">
-          <h2 class="font-heading font-bold text-2xl md:text-3xl text-ink mb-4">7. Children's Privacy</h2>
+          <h2 id="s7" class="scroll-mt-24 font-heading font-bold text-2xl md:text-3xl text-ink mb-4">7. Children's Privacy</h2>
           <p class="font-body text-ink-mid text-base leading-relaxed">
             VeloPad is not directed at children under the age of 13. We do not knowingly collect personal information from children. Since VeloPad does not collect personal data from any user, there is no specific risk to children's data.
           </p>
@@ -345,33 +343,33 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
 
         <!-- ── 8. Data Sharing ── -->
         <div class="mb-14 reveal">
-          <h2 class="font-heading font-bold text-2xl md:text-3xl text-ink mb-4">8. Data Sharing</h2>
+          <h2 id="s8" class="scroll-mt-24 font-heading font-bold text-2xl md:text-3xl text-ink mb-4">8. Data Sharing</h2>
           <p class="font-body text-ink-mid text-base leading-relaxed mb-4">
             VeloPad does <strong class="text-ink">not</strong> sell, trade, rent, or otherwise share personal data with any third parties for commercial purposes. The only external data transmissions are:
           </p>
           <ol class="font-body text-ink-mid text-sm leading-relaxed list-decimal pl-6 space-y-2">
             <li>The subscription purchase token sent to the Firebase verification server (Pro subscribers only) — described in Section 2.1.6.</li>
-            <li>The <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">User-Agent</code> string in the GitHub update check request (PC Client) — described in Section 2.2.4.</li>
+            <li>The <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">User-Agent</code> string in the GitHub update check request (PC Client) — described in Section 2.2.4.</li>
           </ol>
           <p class="font-body text-ink-mid text-sm leading-relaxed mt-4">Neither of these constitutes sharing personal data.</p>
         </div>
 
         <!-- ── 9. Your Rights ── -->
         <div class="mb-14 reveal">
-          <h2 class="font-heading font-bold text-2xl md:text-3xl text-ink mb-4">9. Your Rights</h2>
+          <h2 id="s9" class="scroll-mt-24 font-heading font-bold text-2xl md:text-3xl text-ink mb-4">9. Your Rights</h2>
           <p class="font-body text-ink-mid text-base leading-relaxed mb-4">
             Since VeloPad does not collect or store personal data about you, there is no personal data to access, correct, or delete. That said, you can:
           </p>
           <ul class="font-body text-ink-mid text-sm leading-relaxed list-disc pl-6 space-y-2">
             <li><strong class="text-ink">Uninstall</strong> the Android app at any time. All locally stored preferences and profiles go with it.</li>
-            <li><strong class="text-ink">Delete</strong> the PC Client's <code class="font-mono text-xs bg-cream px-1 py-0.5 rounded">profiles/</code> folder and config file to remove all locally stored data.</li>
+            <li><strong class="text-ink">Delete</strong> the PC Client's <code class="font-mono text-xs bg-alt px-1 py-0.5 rounded">profiles/</code> folder and config file to remove all locally stored data.</li>
             <li><strong class="text-ink">Cancel</strong> your VeloPad Pro subscription at any time through the Google Play Store. The app will reflect your updated status on its next entitlement check.</li>
           </ul>
         </div>
 
         <!-- ── 10. Changes to This Policy ── -->
         <div class="mb-14 reveal">
-          <h2 class="font-heading font-bold text-2xl md:text-3xl text-ink mb-4">10. Changes to This Policy</h2>
+          <h2 id="s10" class="scroll-mt-24 font-heading font-bold text-2xl md:text-3xl text-ink mb-4">10. Changes to This Policy</h2>
           <p class="font-body text-ink-mid text-base leading-relaxed">
             If this policy changes, the updated version will be posted here with a new effective date. Significant changes will be noted in the app's release notes. Continuing to use VeloPad after a policy update means you accept the revised terms.
           </p>
@@ -379,13 +377,13 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
 
         <!-- ── 11. Contact ── -->
         <div class="mb-6 reveal">
-          <h2 class="font-heading font-bold text-2xl md:text-3xl text-ink mb-4">11. Contact</h2>
+          <h2 id="s11" class="scroll-mt-24 font-heading font-bold text-2xl md:text-3xl text-ink mb-4">11. Contact</h2>
           <p class="font-body text-ink-mid text-base leading-relaxed mb-2">
             Questions or concerns about this Privacy Policy? Get in touch:
           </p>
           <p class="font-body text-base">
             <strong class="text-ink">BWH (Blue Wave Horizon)</strong><br />
-            <a href="mailto:bluewavehorizon@gmail.com" class="text-accent underline underline-offset-2">bluewavehorizon@gmail.com</a>
+            <a href="mailto:bluewavehorizon@gmail.com" class="text-link underline underline-offset-2">bluewavehorizon@gmail.com</a>
           </p>
         </div>
 
@@ -397,22 +395,11 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
         </div>
 
       </div>
-    </div>
   </section>
 
-  <!-- ───── Back link ───── -->
-  <section class="py-10 bg-cream">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <a
-        href="/products/velopad/"
-        class="inline-flex items-center gap-2 font-heading font-semibold text-sm text-accent hover:text-accent/80 transition-colors"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="19" y1="12" x2="5" y2="12" />
-          <polyline points="12 19 5 12 12 5" />
-        </svg>
-        Back to VeloPad
-      </a>
+  <section class="border-t border-line">
+    <div class="wrap py-8">
+      <a href="/products/velopad" class="text-link-arrow">&larr; Back to VeloPad</a>
     </div>
   </section>
 

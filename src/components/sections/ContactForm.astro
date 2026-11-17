@@ -1,139 +1,60 @@
 ---
-// §6.6 — ContactForm.astro
-// Left column of the Contact page layout.
-// Fields: Full Name, Email, Subject (optional), Message.
+// ContactForm.astro
+// Fields: Full name, Email, Subject (optional), Message.
 // States: default | loading | success | error.
-// Submits via fetch() POST to PUBLIC_WORKER_URL. Vanilla JS only.
-// On error: show error, do NOT clear form.
-
+// Submits via fetch() POST to PUBLIC_WORKER_URL. On error the form is kept as typed.
 const workerUrl = import.meta.env.PUBLIC_WORKER_URL ?? '';
+const field =
+  'box-border w-full min-h-[52px] rounded border border-field bg-card px-4 py-3.5 font-body text-ink placeholder:text-muted';
 ---
 
-<div class="bg-white rounded-2xl border border-cream-dark p-8 md:p-10"
-  style="box-shadow: 0 2px 12px rgba(26,26,46,0.07);">
-
-  <!-- Success state (hidden by default) -->
+<div>
   <div
     id="form-success"
-    class="hidden flex-col items-center text-center py-8 gap-4"
-    role="alert"
-    aria-live="polite"
+    class="hidden flex-col gap-3 rounded border border-line-strong p-7 sm:p-10"
+    role="status"
   >
-    <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
-      <!-- Checkmark icon in primary -->
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#18d8eb"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
-    </div>
-    <h3 class="font-heading font-bold text-xl text-ink">Message sent!</h3>
-    <p class="font-body text-ink-mid text-base">
-      We'll get back to you as soon as we can.
-    </p>
+    <h2 class="h-card">Message sent.</h2>
+    <p class="text-ink-mid">Thanks for getting in touch. You'll hear back within two working days.</p>
   </div>
 
-  <!-- Form -->
-  <form id="contact-form" novalidate class="space-y-6">
-    <div>
-      <label for="full-name" class="block font-heading font-semibold text-ink-mid text-sm mb-1.5">
-        Full Name <span class="text-accent" aria-hidden="true">*</span>
+  <form id="contact-form" class="flex flex-col gap-6" novalidate>
+    <div class="grid gap-6 sm:grid-cols-2">
+      <div class="flex flex-col gap-2">
+        <label for="full-name" class="text-[15px] font-bold">Full name</label>
+        <input id="full-name" name="name" type="text" required placeholder="Your name" autocomplete="name" class={field} />
+      </div>
+      <div class="flex flex-col gap-2">
+        <label for="email-address" class="text-[15px] font-bold">Email address</label>
+        <input id="email-address" name="email" type="email" required placeholder="you@example.com" autocomplete="email" class={field} />
+      </div>
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="subject" class="text-[15px] font-bold">
+        Subject <span class="font-medium text-ink-mid">(optional)</span>
       </label>
-      <input
-        id="full-name"
-        name="name"
-        type="text"
-        required
-        placeholder="Your name"
-        autocomplete="name"
-        class="w-full font-body text-ink text-base px-4 py-3 rounded-lg border border-cream-dark bg-cream focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors duration-150 placeholder:text-muted"
-      />
+      <input id="subject" name="subject" type="text" placeholder="What's this about?" class={field} />
+    </div>
+    <div class="flex flex-col gap-2">
+      <label for="message" class="text-[15px] font-bold">Message</label>
+      <textarea id="message" name="message" rows="7" required placeholder="What do you need built, and by when?" class={field + ' resize-y'}></textarea>
     </div>
 
-    <div>
-      <label
-        for="email-address"
-        class="block font-heading font-semibold text-ink-mid text-sm mb-1.5"
-      >
-        Email Address <span class="text-accent" aria-hidden="true">*</span>
-      </label>
-      <input
-        id="email-address"
-        name="email"
-        type="email"
-        required
-        placeholder="you@example.com"
-        autocomplete="email"
-        class="w-full font-body text-ink text-base px-4 py-3 rounded-lg border border-cream-dark bg-cream focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors duration-150 placeholder:text-muted"
-      />
-    </div>
+    <p id="form-error" class="hidden rounded border border-accent p-4 text-[15px] text-ink" role="alert">
+      That didn't send. Check that your name, email and message are filled in and try again, or
+      email <a href="mailto:hello@bluewavehz.com" class="font-bold text-link underline">hello@bluewavehz.com</a>.
+    </p>
 
-    <div>
-      <label for="subject" class="block font-heading font-semibold text-ink-mid text-sm mb-1.5">
-        Subject
-      </label>
-      <input
-        id="subject"
-        name="subject"
-        type="text"
-        placeholder="What's this about?"
-        class="w-full font-body text-ink text-base px-4 py-3 rounded-lg border border-cream-dark bg-cream focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors duration-150 placeholder:text-muted"
-      />
-    </div>
-
-    <div>
-      <label for="message" class="block font-heading font-semibold text-ink-mid text-sm mb-1.5">
-        Message <span class="text-accent" aria-hidden="true">*</span>
-      </label>
-      <textarea
-        id="message"
-        name="message"
-        rows="5"
-        required
-        placeholder="Your message..."
-        class="w-full font-body text-ink text-base px-4 py-3 rounded-lg border border-cream-dark bg-cream focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors duration-150 placeholder:text-muted resize-y"
-      ></textarea>
-    </div>
-
-    <!-- Inline error — shown on submission failure. Form is NOT cleared. -->
-    <div
-      id="form-error"
-      class="hidden p-4 rounded-lg bg-red-50 border border-red-200 text-red-700 font-body text-sm"
-      role="alert"
-      aria-live="assertive"
-    >
-      Something went wrong. Please try again or email us directly at
-      <a href="mailto:hello@dwellr.ng" class="underline font-semibold">hello@dwellr.ng</a>.
-    </div>
-
-    <!-- Submit -->
     <button
       id="submit-btn"
       type="submit"
-      class="w-full bg-primary text-ink font-heading font-semibold px-6 py-3 rounded-lg hover:bg-secondary hover:text-white transition-colors duration-150 flex items-center justify-center gap-2"
+      class="inline-flex min-h-[52px] cursor-pointer items-center justify-center gap-2.5 self-start rounded-full bg-primary px-8 font-body text-[17px] font-bold text-[#1a1a2e] transition-opacity duration-150 hover:opacity-85 disabled:cursor-not-allowed disabled:opacity-60"
     >
-      <span id="submit-label">Send Message</span>
-      <!-- Spinner (hidden by default) -->
-      <svg
-        id="submit-spinner"
-        class="hidden animate-spin w-4 h-4"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <circle cx="12" cy="12" r="10" stroke-opacity="0.25" />
-        <path d="M12 2a10 10 0 0 1 10 10" stroke-opacity="1" stroke-linecap="round" />
+      <svg id="submit-spinner" class="hidden h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" opacity="0.3"></circle>
+        <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
       </svg>
+      <span id="submit-label">Send message</span>
     </button>
   </form>
 </div>
@@ -187,7 +108,7 @@ const workerUrl = import.meta.env.PUBLIC_WORKER_URL ?? '';
       // Error state — show error, keep form intact
       errorPanel?.classList.remove('hidden');
       submitBtn.disabled = false;
-      submitLabel.textContent = 'Send Message';
+      submitLabel.textContent = 'Send message';
       spinner?.classList.add('hidden');
     }
   });
