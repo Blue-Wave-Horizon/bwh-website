@@ -3,6 +3,8 @@
 // Fields: Full name, Email, Subject (optional), Message.
 // States: default | loading | success | error.
 // Submits via fetch() POST to PUBLIC_WORKER_URL. On error the form is kept as typed.
+import Email from '../ui/Email.astro';
+
 const workerUrl = import.meta.env.PUBLIC_WORKER_URL ?? '';
 const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
 const field =
@@ -43,17 +45,17 @@ const field =
 
     {/* Honeypot field: hidden from users & screen readers, catches auto-filling bots */}
     <div class="sr-only" aria-hidden="true">
-      <label for="website">Website</label>
-      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      <label for="bwh-hp">Leave this field empty</label>
+      <input id="bwh-hp" name="bwh_hp" type="text" tabindex="-1" autocomplete="off" />
     </div>
 
     {turnstileSiteKey && (
-      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="auto"></div>
+      <div id="turnstile-container"></div>
     )}
 
     <p id="form-error" class="hidden rounded border border-accent p-4 text-[15px] text-ink" role="alert">
       That didn't send. Check that your name, email and message are filled in and try again, or
-      email <a href="mailto:hello@bluewavehz.com" class="font-bold text-link underline">hello@bluewavehz.com</a>.
+      email <Email class="font-bold text-link underline" />.
     </p>
 
     <button
@@ -71,16 +73,44 @@ const field =
 </div>
 
 {turnstileSiteKey && (
-  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad" async defer></script>
 )}
 
-<script define:vars={{ workerUrl, hasTurnstile: Boolean(turnstileSiteKey) }}>
+<script define:vars={{ workerUrl, hasTurnstile: Boolean(turnstileSiteKey), turnstileSiteKey }}>
   const form = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');
   const submitLabel = document.getElementById('submit-label');
   const spinner = document.getElementById('submit-spinner');
   const successPanel = document.getElementById('form-success');
   const errorPanel = document.getElementById('form-error');
+
+  let turnstileWidgetId = null;
+
+  function renderTurnstile() {
+    if (!hasTurnstile || !window.turnstile) return;
+    const container = document.getElementById('turnstile-container');
+    if (!container) return;
+    if (turnstileWidgetId !== null) {
+      window.turnstile.remove(turnstileWidgetId);
+      turnstileWidgetId = null;
+    }
+    const theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+    turnstileWidgetId = window.turnstile.render(container, {
+      sitekey: turnstileSiteKey,
+      theme,
+    });
+  }
+
+  if (hasTurnstile) {
+    window.onTurnstileLoad = renderTurnstile;
+    if (window.turnstile) renderTurnstile();
+
+    // Re-render Turnstile when the site's data-theme attribute is toggled
+    new MutationObserver(renderTurnstile).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+  }
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -93,7 +123,7 @@ const field =
     const email = (form.elements.namedItem('email')).value.trim();
     const subject = (form.elements.namedItem('subject')).value.trim();
     const message = (form.elements.namedItem('message')).value.trim();
-    const website = (form.elements.namedItem('website'))?.value ?? '';
+    const bwh_hp = (form.elements.namedItem('bwh_hp'))?.value ?? '';
     const turnstileToken = (form.elements.namedItem('cf-turnstile-response'))?.value ?? '';
 
     if (!name || !email || !message || (hasTurnstile && !turnstileToken)) {
@@ -110,7 +140,7 @@ const field =
       const res = await fetch(workerUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, subject, message, website, turnstileToken }),
+        body: JSON.stringify({ name, email, subject, message, bwh_hp, turnstileToken }),
       });
 
       if (res.ok) {
@@ -123,8 +153,8 @@ const field =
       }
     } catch {
       // Error state — show error, keep form intact, reset Turnstile for retry
-      if (hasTurnstile && window.turnstile) {
-        window.turnstile.reset();
+      if (hasTurnstile && window.turnstile && turnstileWidgetId !== null) {
+        window.turnstile.reset(turnstileWidgetId);
       }
       errorPanel?.classList.remove('hidden');
       submitBtn.disabled = false;

@@ -1,0 +1,16 @@
+---
+// Email.astro — a mailto link that keeps the address out of the page's HTML.
+// The address is stored reversed in two parts and assembled by a small script in
+// BaseLayout as the page loads, so simple email harvesters reading the raw HTML miss it.
+// Visitors see and click a normal link. Without JavaScript they see "hello [at] bluewavehz [dot] com".
+interface Props {
+  address?: string;
+  class?: string;
+}
+const { address = 'hello@bluewavehz.com', class: className } = Astro.props;
+const [user, domain] = address.split('@');
+const reverse = (s: string) => s.split('').reverse().join('');
+const fallback = `${user} [at] ${domain.replace(/\./g, ' [dot] ')}`;
+---
+
+<a class={className} data-mail-u={reverse(user)} data-mail-d={reverse(domain)}>{fallback}</a>
