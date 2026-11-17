@@ -99,7 +99,7 @@ export default {
           },
         },
       ],
-      reply_to: [{ email_address: { address: email, name: name } }],
+      reply_to: [{ address: email, name: name }],
       subject: subject
         ? `[BWH Contact] ${subject}`
         : `[BWH Contact] New message from ${name}`,
@@ -141,10 +141,7 @@ export default {
           errText
         );
         return new Response(
-          JSON.stringify({
-            error: 'Failed to send email',
-            upstreamStatus: zeploResponse.status,
-          }),
+          JSON.stringify({ error: 'Failed to send email' }),
           {
             status: 502,
             headers: { ...headers, 'Content-Type': 'application/json' },
