@@ -19,17 +19,14 @@ const ogImageUrl = new URL(ogImage, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Theme: saved choice first, otherwise the device setting. Runs before paint to avoid a flash. -->
+    <!-- Theme: light by default. A visitor who switches to dark keeps dark on later visits. Runs before paint to avoid a flash. -->
     <script is:inline>
       (function () {
         var saved = null;
         try {
           saved = localStorage.getItem('bwh-theme');
         } catch (e) {}
-        var dark =
-          saved === 'dark' ||
-          (saved !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        document.documentElement.dataset.theme = saved === 'dark' ? 'dark' : 'light';
       })();
     </script>
     <link rel="icon" type="image/png" href="/images/logo.png" />

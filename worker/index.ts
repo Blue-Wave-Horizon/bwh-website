@@ -108,7 +108,7 @@ export default {
     };
 
     try {
-      const zeploResponse = await fetch('https://api.zeptomail.com/v1.1/email', {
+      const zeploResponse = await fetch('https://cpaas.zoho.com/v1.1/email', {
         method: 'POST',
         headers: {
           Authorization: `Zoho-enczapikey ${env.ZEPTO_API_KEY}`,
