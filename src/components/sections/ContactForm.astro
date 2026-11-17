@@ -4,6 +4,7 @@
 // States: default | loading | success | error.
 // Submits via fetch() POST to PUBLIC_WORKER_URL. On error the form is kept as typed.
 const workerUrl = import.meta.env.PUBLIC_WORKER_URL ?? '';
+const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
 const field =
   'box-border w-full min-h-[52px] rounded border border-field bg-card px-4 py-3.5 font-body text-ink placeholder:text-muted';
 ---
@@ -40,6 +41,16 @@ const field =
       <textarea id="message" name="message" rows="7" required placeholder="What do you need built, and by when?" class={field + ' resize-y'}></textarea>
     </div>
 
+    {/* Honeypot field: hidden from users & screen readers, catches auto-filling bots */}
+    <div class="sr-only" aria-hidden="true">
+      <label for="website">Website</label>
+      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    {turnstileSiteKey && (
+      <div class="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="auto"></div>
+    )}
+
     <p id="form-error" class="hidden rounded border border-accent p-4 text-[15px] text-ink" role="alert">
       That didn't send. Check that your name, email and message are filled in and try again, or
       email <a href="mailto:hello@bluewavehz.com" class="font-bold text-link underline">hello@bluewavehz.com</a>.
@@ -59,7 +70,11 @@ const field =
   </form>
 </div>
 
-<script define:vars={{ workerUrl }}>
+{turnstileSiteKey && (
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+)}
+
+<script define:vars={{ workerUrl, hasTurnstile: Boolean(turnstileSiteKey) }}>
   const form = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submit-btn');
   const submitLabel = document.getElementById('submit-label');
@@ -78,8 +93,10 @@ const field =
     const email = (form.elements.namedItem('email')).value.trim();
     const subject = (form.elements.namedItem('subject')).value.trim();
     const message = (form.elements.namedItem('message')).value.trim();
+    const website = (form.elements.namedItem('website'))?.value ?? '';
+    const turnstileToken = (form.elements.namedItem('cf-turnstile-response'))?.value ?? '';
 
-    if (!name || !email || !message) {
+    if (!name || !email || !message || (hasTurnstile && !turnstileToken)) {
       errorPanel?.classList.remove('hidden');
       return;
     }
@@ -93,7 +110,7 @@ const field =
       const res = await fetch(workerUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, subject, message }),
+        body: JSON.stringify({ name, email, subject, message, website, turnstileToken }),
       });
 
       if (res.ok) {
@@ -105,7 +122,10 @@ const field =
         throw new Error('Non-OK response');
       }
     } catch {
-      // Error state — show error, keep form intact
+      // Error state — show error, keep form intact, reset Turnstile for retry
+      if (hasTurnstile && window.turnstile) {
+        window.turnstile.reset();
+      }
       errorPanel?.classList.remove('hidden');
       submitBtn.disabled = false;
       submitLabel.textContent = 'Send message';
