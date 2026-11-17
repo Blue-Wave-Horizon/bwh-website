@@ -1,43 +1,28 @@
 ---
-// §6.3 — Products overview page (/products)
-// Same compact hero banner treatment as About page.
-// Grid driven by src/data/products.ts via ProductGrid component.
-// SEO: §9 spec
-
+// Products overview (/products) — cards come from src/data/products.ts
 import BaseLayout from '../../components/layout/BaseLayout.astro';
+import PageHero from '../../components/sections/PageHero.astro';
 import ProductGrid from '../../components/sections/ProductGrid.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
 ---
 
 <BaseLayout
   title="Products — Blue Wave Horizon"
-  description="Explore Dwellr and Velopad — Blue Wave Horizon's software products for property rental and PC gaming."
+  description="Software Blue Wave Horizon builds and runs itself: VeloPad, live on Google Play, and Dwellr, in development."
 >
+  <PageHero
+    eyebrow="Products"
+    title="Software we build and run ourselves."
+    lead="Alongside client work, Blue Wave Horizon makes its own products. One is live. One is on the way."
+  />
 
-  <!-- ───── Page Hero — §6.3 (same treatment as About) ───── -->
-  <section class="py-20 md:py-24 bg-cream-mid relative overflow-hidden">
-    <!-- Left-edge vertical stripe in primary (matching About page style) -->
-    <div
-      class="absolute left-0 top-0 bottom-0 w-[3px] bg-primary"
-      aria-hidden="true"
-    ></div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-3xl">
-        <!-- §6.3 verbatim -->
-        <h1 class="font-heading font-extrabold text-4xl md:text-5xl text-ink mb-4 leading-tight">
-          Our Products
-        </h1>
-        <p class="font-body text-lg text-ink-mid leading-relaxed">
-          Purpose-built software for Nigeria's real-world problems.
-        </p>
-      </div>
-    </div>
+  <section class="wrap pb-16 sm:pb-24 lg:pb-28" aria-label="Products">
+    <ProductGrid />
   </section>
 
-  <!-- ───── Product Grid — §6.3 ───── -->
-  <section class="py-20 md:py-28 bg-cream">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <ProductGrid />
-    </div>
-  </section>
+  <CtaBand
+    tinted
+    title="Want something like this built?"
+    text="The same person who built these builds for clients too: mobile apps, web platforms and desktop software."
+  />
 </BaseLayout>

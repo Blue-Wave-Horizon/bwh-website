@@ -1,73 +1,59 @@
 ---
-// §7 — ProductCard.astro
-// bg-white rounded-2xl border border-cream-dark shadow-sm
-// Hover: shadow-md border-primary/40 scale-[1.02] transition-all duration-200
+// ProductCard.astro — one product on the Products page.
+// Live products get the dark panel with an image; products in development get a quiet outlined card.
+import type { Product } from '../../data/products';
 
 interface Props {
-  name: string;
-  category: string;
-  description: string;
-  href: string;
-  imageSrc: string;
-  imageAlt: string;
-  badgeColor?: 'primary' | 'accent';
+  product: Product;
 }
-
-const {
-  name,
-  category,
-  description,
-  href,
-  imageSrc,
-  imageAlt,
-  badgeColor = 'primary',
-} = Astro.props;
-
-const badgeColorClasses: Record<string, string> = {
-  primary: 'bg-primary/10 text-secondary border border-primary/30',
-  accent: 'bg-accent/10 text-accent border border-accent/30',
-};
+const { product } = Astro.props;
+const href = `/products/${product.slug}`;
+const live = product.status === 'live';
 ---
 
-<article
-  class="bg-white rounded-2xl border border-cream-dark shadow-sm overflow-hidden transition-all duration-200 hover:shadow-md hover:border-primary/40 hover:scale-[1.02]"
-  style="box-shadow: 0 2px 12px rgba(26,26,46,0.07);"
->
-  <!-- Product preview image — §13 placeholder convention -->
-  <div class="w-full aspect-video overflow-hidden bg-cream-mid">
-    {
-      imageSrc ? (
-        <img
-          src={imageSrc}
-          alt={imageAlt}
-          width="600"
-          height="338"
-          loading="lazy"
-          class="w-full h-full object-cover"
-        />
-      ) : (
-        <div class="w-full h-full flex items-center justify-center border-b border-cream-dark">
-          <span class="text-muted font-body text-sm">Image coming soon</span>
+{
+  live ? (
+    <article class="flex flex-col gap-8 overflow-hidden rounded-md border border-panel-line bg-panel p-6 text-white sm:p-10 lg:flex-row lg:items-center lg:gap-16 lg:p-14 reveal">
+      <div class="flex flex-col gap-4 lg:flex-1">
+        <p class="status text-primary">
+          <span aria-hidden="true" class="h-2 w-2 rounded-full bg-primary" />
+          <span>{product.statusLabel}</span>
+        </p>
+        <h2 class="h-section !text-white">{product.name}</h2>
+        <p class="text-lg text-[#b8bcc8] sm:text-[19px]">{product.description}</p>
+        <div class="mt-1 flex flex-col gap-x-7 sm:flex-row sm:flex-wrap">
+          <a href={href} class="text-link-arrow !text-primary">About {product.name} &rarr;</a>
+          {product.externalUrl && (
+            <a href={product.externalUrl} class="text-link-arrow !text-primary">
+              {product.externalLabel ?? 'Visit site'} &rarr;
+            </a>
+          )}
         </div>
-      )
-    }
-  </div>
-
-  <div class="p-6 md:p-8">
-    <div class="mb-3">
-      <span
-        class={`text-xs font-heading font-semibold uppercase tracking-wide px-3 py-1 rounded-full ${badgeColorClasses[badgeColor]}`}
-      >
-        {category}
-      </span>
-    </div>
-    <h3 class="font-heading font-bold text-xl text-ink mb-2">{name}</h3>
-    <p class="font-body text-ink-mid text-sm mb-5 leading-relaxed">{description}</p>
-    <a
-      href={href}
-      class="font-body text-secondary text-sm font-semibold hover:underline transition-all duration-150 inline-flex items-center gap-1"
-    >
-      View Product <span aria-hidden="true">&rarr;</span>
-    </a>
-  </div>
-</article>
+      </div>
+      {product.imageSrc && (
+        <div class="w-full rounded-[9px] border border-[#343a47] bg-[#1c2029] p-[2px] shadow-[0_24px_60px_rgba(0,0,0,0.65)] sm:rounded-[15px] sm:p-[3px] lg:w-1/2 lg:flex-none">
+          <img
+            src={product.imageSrc}
+            alt={product.imageAlt ?? ''}
+            width="1400"
+            height="618"
+            loading="lazy"
+            class="block h-auto w-full rounded-[7px] sm:rounded-[12px]"
+          />
+        </div>
+      )}
+    </article>
+  ) : (
+    <article class="flex flex-col gap-6 rounded-md border border-line-strong p-6 sm:p-10 lg:flex-row lg:items-end lg:justify-between lg:gap-16 lg:p-14 reveal">
+      <div class="flex max-w-[620px] flex-col gap-4">
+        <p class="status text-ink-mid">
+          <span aria-hidden="true" class="h-2 w-2 rounded-full bg-accent" />
+          <span>{product.statusLabel}</span>
+        </p>
+        <h2 class="h-section">{product.name}</h2>
+        <p class="text-lg text-ink-mid sm:text-[19px]">{product.description}</p>
+      </div>
+      <a href={href} class="text-link-arrow shrink-0">About {product.name} &rarr;</a>
+    </article>
+  )
+}

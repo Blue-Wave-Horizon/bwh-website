@@ -1,218 +1,48 @@
 ---
-// §6.4 — Dwellr product page (/products/dwellr)
-// Goal: sell Dwellr to landlords and tenants. Clear value prop. Link to live platform.
-// SEO: §9 spec. Copy from §6.4 verbatim where specified.
-
+// Dwellr (/products/dwellr) — teaser while the product is in development.
 import BaseLayout from '../../components/layout/BaseLayout.astro';
-import Button from '../../components/ui/Button.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import CtaBand from '../../components/sections/CtaBand.astro';
+import FeatureCard from '../../components/ui/FeatureCard.astro';
 ---
 
 <BaseLayout
-  title="Dwellr — Direct Property Rentals in Nigeria"
-  description="Dwellr removes agents from Nigerian property rentals. Landlords list free. Tenants pay a flat 5% fee. PropTech built for Nigeria."
+  title="Dwellr — Direct property rentals in Nigeria"
+  description="Dwellr is a rental marketplace in development that connects landlords and tenants in Nigeria directly, with no agent in between."
 >
+  <PageHero
+    centered
+    status="coming-soon"
+    statusLabel="Product · In development"
+    title="Dwellr"
+    lead="Rent directly. No agent in between."
+  >
+    <p class="max-w-[620px] text-lg text-ink-mid sm:text-[19px]">
+      Dwellr is a rental marketplace for Nigeria where landlords and tenants deal with each other
+      directly. It isn't open to the public yet.
+    </p>
+  </PageHero>
 
-  <!-- ───── Hero / Intro — §6.4 ───── -->
-  <!-- cream-mid bg, right-side faint teal circle decoration -->
-  <section class="py-20 md:py-28 bg-cream-mid relative overflow-hidden">
-
-    <!-- Decorative faint circle right-side — §6.4 spec: primary at opacity-[0.07] -->
-    <div
-      class="absolute right-[-20%] top-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-      style="background: radial-gradient(circle, rgba(24,216,235,0.07) 0%, transparent 70%);"
-      aria-hidden="true"
-    ></div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-2xl relative z-10">
-
-        <!-- Eyebrow badge — §6.4 spec -->
-        <span
-          class="text-xs font-heading font-semibold uppercase tracking-wide px-3 py-1 rounded-full border bg-primary/10 text-secondary border-primary/30 inline-block mb-5"
-        >
-          PropTech Platform
-        </span>
-
-        <!-- H1 — §6.4 spec -->
-        <h1 class="font-heading font-extrabold text-5xl md:text-6xl text-ink mb-3 leading-tight">
-          Dwellr
-        </h1>
-
-        <!-- Tagline (H2 styling) — §6.4 spec verbatim -->
-        <p class="font-heading font-bold text-xl md:text-2xl text-secondary mb-6 leading-snug">
-          Rent directly. No agent. No hidden fees.
-        </p>
-
-        <!-- Body — §6.4 spec verbatim -->
-        <p class="font-body text-ink-mid text-base leading-relaxed mb-8 max-w-lg">
-          Dwellr is a two-sided rental marketplace connecting landlords and tenants
-          directly across Nigeria. Tenants pay a single transparent 5% service fee.
-          Landlords list for free. No middleman takes a cut.
-        </p>
-
-        <!-- CTA — §6.4 spec: opens dwellr.ng in new tab -->
-        <Button href="https://dwellr.ng" variant="primary" external>
-          Go to Dwellr
-        </Button>
+  <section class="bg-alt">
+    <div class="wrap section flex flex-col gap-10 sm:gap-14">
+      <h2 class="h-section">What we're building</h2>
+      <div class="grid gap-5 sm:gap-6 md:grid-cols-3">
+        <FeatureCard title="Direct listings">
+          Landlords list their own properties. Tenants browse and apply without going through an
+          agent.
+        </FeatureCard>
+        <FeatureCard title="One clear fee">
+          A single service fee, stated up front. No agent commission and no surprise charges later.
+        </FeatureCard>
+        <FeatureCard title="Verified identities">
+          Landlords and tenants both verify who they are before an agreement is made.
+        </FeatureCard>
       </div>
     </div>
   </section>
 
-  <!-- ───── Features Section — §6.4 ───── -->
-  <!-- grid-cols-1 md:grid-cols-3. Each block: SVG icon + H3 + body. -->
-  <section class="py-20 md:py-28 bg-cream">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-      <h2 class="font-heading font-bold text-3xl md:text-4xl text-ink mb-12 reveal">
-        How Dwellr Works for You
-      </h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-        <!-- Feature 1: Direct Listings — §6.4 verbatim -->
-        <div class="reveal">
-          <div
-            class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5"
-            aria-hidden="true"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a718d" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-              <polyline points="9 22 9 12 15 12 15 22" />
-            </svg>
-          </div>
-          <h3 class="font-heading font-bold text-lg text-ink mb-2">Direct Listings</h3>
-          <p class="font-body text-ink-mid text-sm leading-relaxed">
-            Landlords list their properties directly. Tenants browse and apply without going
-            through an agent.
-          </p>
-        </div>
-
-        <!-- Feature 2: Transparent Fees — §6.4 verbatim -->
-        <div class="reveal">
-          <div
-            class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5"
-            aria-hidden="true"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a718d" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 8v4l3 3" />
-            </svg>
-          </div>
-          <h3 class="font-heading font-bold text-lg text-ink mb-2">Transparent Fees</h3>
-          <p class="font-body text-ink-mid text-sm leading-relaxed">
-            Tenants pay a flat 5% service fee. That's it. No hidden agent commissions, no
-            surprise charges.
-          </p>
-        </div>
-
-        <!-- Feature 3: Verified Identities — §6.4 verbatim -->
-        <div class="reveal">
-          <div
-            class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5"
-            aria-hidden="true"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a718d" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              <polyline points="9 12 11 14 15 10" />
-            </svg>
-          </div>
-          <h3 class="font-heading font-bold text-lg text-ink mb-2">Verified Identities</h3>
-          <p class="font-body text-ink-mid text-sm leading-relaxed">
-            Built-in identity verification ensures landlords and tenants are who they say
-            they are.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ───── How It Works — §6.4 ───── -->
-  <!-- Three-step numbered flow. Stacks vertically on mobile. -->
-  <section class="py-20 md:py-28 bg-cream-mid">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-      <h2 class="font-heading font-bold text-3xl md:text-4xl text-ink mb-12 text-center reveal">
-        How It Works
-      </h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-
-        <!-- Connector line (desktop only) -->
-        <div
-          class="hidden md:block absolute top-8 left-[calc(16.66%+16px)] right-[calc(16.66%+16px)] h-[2px] bg-cream-dark"
-          aria-hidden="true"
-        ></div>
-
-        <!-- Step 1 — §6.4 verbatim -->
-        <div class="flex flex-col items-center text-center reveal">
-          <div
-            class="w-16 h-16 rounded-full bg-primary/10 border-2 border-primary/30 flex items-center justify-center mb-5 font-heading font-bold text-secondary text-xl relative z-10"
-            aria-hidden="true"
-          >
-            1
-          </div>
-          <h3 class="font-heading font-bold text-lg text-ink mb-2">List or Search</h3>
-          <p class="font-body text-ink-mid text-sm leading-relaxed max-w-xs">
-            Landlords post a property. Tenants search by location, price, and type.
-          </p>
-        </div>
-
-        <!-- Step 2 — §6.4 verbatim -->
-        <div class="flex flex-col items-center text-center reveal">
-          <div
-            class="w-16 h-16 rounded-full bg-primary/10 border-2 border-primary/30 flex items-center justify-center mb-5 font-heading font-bold text-secondary text-xl relative z-10"
-            aria-hidden="true"
-          >
-            2
-          </div>
-          <h3 class="font-heading font-bold text-lg text-ink mb-2">Apply &amp; Verify</h3>
-          <p class="font-body text-ink-mid text-sm leading-relaxed max-w-xs">
-            Tenants submit a rental application. Both parties verify their identities.
-          </p>
-        </div>
-
-        <!-- Step 3 — §6.4 verbatim -->
-        <div class="flex flex-col items-center text-center reveal">
-          <div
-            class="w-16 h-16 rounded-full bg-primary/10 border-2 border-primary/30 flex items-center justify-center mb-5 font-heading font-bold text-secondary text-xl relative z-10"
-            aria-hidden="true"
-          >
-            3
-          </div>
-          <h3 class="font-heading font-bold text-lg text-ink mb-2">Rent Directly</h3>
-          <p class="font-body text-ink-mid text-sm leading-relaxed max-w-xs">
-            Agreements are handled on-platform. Payments are processed securely.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ───── Tech Transparency Note — §6.4 ───── -->
-  <!-- Low-key aside. Not prominent. For technical credibility. -->
-  <section class="py-8 bg-cream">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p class="font-body text-muted text-sm text-center">
-        Built on Node.js with a PostgreSQL database. Designed for reliability and scale.
-      </p>
-    </div>
-  </section>
-
-  <!-- ───── Bottom CTA Banner — §6.4 ───── -->
-  <!-- Full-width secondary teal band. Inverted button for coloured background. -->
-  <section class="py-16 md:py-20 bg-secondary">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="font-heading font-bold text-3xl md:text-4xl text-white mb-6 reveal">
-        Ready to find or list a property?
-      </h2>
-      <a
-        href="https://dwellr.ng"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center justify-center gap-2 bg-white text-secondary font-heading font-semibold px-6 py-3 rounded-lg hover:bg-cream transition-colors duration-150"
-      >
-        Open Dwellr
-      </a>
-    </div>
-  </section>
+  <CtaBand
+    title="Want to know when it opens?"
+    text="Send us a note and we'll tell you when Dwellr is ready for landlords and tenants."
+  />
 </BaseLayout>

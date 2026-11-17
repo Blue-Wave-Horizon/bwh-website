@@ -1,12 +1,9 @@
 ---
-// §7 — Button.astro
-// Renders as <a> when href is provided, otherwise <button>.
-// Variants: primary | outline | accent | muted
-// Disabled: aria-disabled + no click handler (muted state for "Coming Soon").
-
+// Button.astro — renders <a> when href is given, otherwise <button>.
+// Variants: primary (cyan pill) | ink (dark pill, inverts in dark mode) | outline
 interface Props {
   href?: string;
-  variant: 'primary' | 'outline' | 'accent' | 'muted';
+  variant?: 'primary' | 'ink' | 'outline';
   disabled?: boolean;
   external?: boolean; // adds target="_blank" rel="noopener noreferrer"
   type?: 'button' | 'submit';
@@ -16,7 +13,7 @@ interface Props {
 
 const {
   href,
-  variant,
+  variant = 'primary',
   disabled = false,
   external = false,
   type = 'button',
@@ -24,47 +21,34 @@ const {
   id,
 } = Astro.props;
 
-// §3 Button Styles spec
-const variantClasses: Record<string, string> = {
-  primary:
-    'bg-primary text-ink font-heading font-semibold px-6 py-3 rounded-lg hover:bg-secondary hover:text-white transition-colors duration-150',
-  outline:
-    'border-2 border-primary text-secondary font-heading font-semibold px-6 py-3 rounded-lg hover:bg-primary hover:text-ink transition-colors duration-150',
-  accent:
-    'bg-accent text-white font-heading font-semibold px-6 py-3 rounded-lg hover:opacity-90 transition-opacity duration-150',
-  muted:
-    'bg-cream-dark text-muted font-heading font-semibold px-6 py-3 rounded-lg cursor-not-allowed opacity-60',
+const variants: Record<string, string> = {
+  primary: 'bg-primary text-[#1a1a2e] hover:opacity-85',
+  ink: 'bg-navbtn-bg text-navbtn-fg hover:opacity-85',
+  outline: 'border border-line-strong text-ink hover:bg-alt',
 };
 
-const base = `inline-flex items-center justify-center gap-2 ${variantClasses[variant]} ${className}`;
-const disabledClasses = disabled ? ' opacity-60 cursor-not-allowed pointer-events-none' : '';
-const classes = base + disabledClasses;
+const classes = [
+  'inline-flex min-h-[52px] cursor-pointer items-center justify-center gap-2 rounded-full px-8 font-body text-[17px] font-bold transition-opacity duration-150',
+  variants[variant],
+  disabled ? 'pointer-events-none cursor-not-allowed opacity-60' : '',
+  className,
+].join(' ');
 ---
 
 {
-  href && !disabled ? (
+  href ? (
     <a
-      href={href}
+      href={disabled ? undefined : href}
       id={id}
       class={classes}
+      aria-disabled={disabled ? 'true' : undefined}
       target={external ? '_blank' : undefined}
       rel={external ? 'noopener noreferrer' : undefined}
     >
       <slot />
     </a>
-  ) : href && disabled ? (
-    <a
-      href="#"
-      id={id}
-      class={classes}
-      aria-disabled="true"
-      tabindex="-1"
-      onclick="return false;"
-    >
-      <slot />
-    </a>
   ) : (
-    <button id={id} type={type} class={classes} disabled={disabled} aria-disabled={disabled ? 'true' : undefined}>
+    <button id={id} type={type} class={classes} disabled={disabled}>
       <slot />
     </button>
   )

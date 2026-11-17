@@ -8,9 +8,9 @@ compatibility_date = "2024-01-01"
 workers_dev = true
 
 [vars]
-ZEPTO_FROM_ADDRESS = "noreply@dwellr.ng"
+ZEPTO_FROM_ADDRESS = "noreply@bluewavehz.com"
 ZEPTO_FROM_NAME = "Blue Wave Horizon Website"
-ZEPTO_TO_ADDRESS = "hello@dwellr.ng"
+ZEPTO_TO_ADDRESS = "hello@bluewavehz.com"
 
 # ZEPTO_API_KEY must be set as a secret — never commit it:
 #   wrangler secret put ZEPTO_API_KEY

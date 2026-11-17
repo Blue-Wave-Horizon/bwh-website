@@ -1,0 +1,37 @@
+---
+// Closing call to action. `tinted` puts it on the alternate background.
+import Button from '../ui/Button.astro';
+
+interface Props {
+  title: string;
+  text?: string;
+  label?: string;
+  href?: string;
+  external?: boolean;
+  tinted?: boolean;
+}
+const {
+  title,
+  text,
+  label = 'Get in touch',
+  href = '/contact',
+  external = false,
+  tinted = false,
+} = Astro.props;
+---
+
+<section class:list={[tinted && 'bg-alt']}>
+  <div class="wrap flex flex-col items-center gap-5 py-20 text-center sm:gap-6 sm:py-28 lg:py-34">
+    <h2
+      class="font-heading font-semibold text-ink reveal"
+      style="font-size: clamp(2rem, 5vw, 4.25rem); line-height: 1.04; letter-spacing: -0.04em;"
+    >
+      {title}
+    </h2>
+    {text && <p class="max-w-[560px] text-lg text-ink-mid sm:text-[19px]">{text}</p>}
+    <div class="mt-3 flex flex-col items-center gap-x-7 gap-y-2 sm:flex-row">
+      <Button href={href} external={external}>{label}</Button>
+      <slot />
+    </div>
+  </div>
+</section>

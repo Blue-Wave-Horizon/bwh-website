@@ -7,22 +7,34 @@ export interface Env {
   ZEPTO_FROM_ADDRESS: string;
   ZEPTO_FROM_NAME: string;
   ZEPTO_TO_ADDRESS: string;
+  TURNSTILE_SECRET_KEY?: string;
 }
 
 // §8 spec: update ALLOWED_ORIGINS when domain is confirmed.
 const ALLOWED_ORIGINS = [
+  'https://bluewavehz.com',
+  'https://www.bluewavehz.com',
   'https://bluewavehorizon.dwellr.ng',
   'https://www.bluewavehorizon.dwellr.ng',
   'http://localhost:4321', // Astro dev server
 ];
 
+// Allow bwh-website production and Cloudflare Workers preview/branch URLs
+const WORKERS_DEV_ORIGIN_RE =
+  /^https:\/\/([a-z0-9-]+-)?bwh-website\.blue-wave-horizon\.workers\.dev$/;
+
+function isAllowedOrigin(origin: string | null): origin is string {
+  if (!origin) return false;
+  return ALLOWED_ORIGINS.includes(origin) || WORKERS_DEV_ORIGIN_RE.test(origin);
+}
+
 function corsHeaders(origin: string | null): HeadersInit {
-  const allowed =
-    origin && ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  const allowed = isAllowedOrigin(origin) ? origin : ALLOWED_ORIGINS[0];
   return {
     'Access-Control-Allow-Origin': allowed,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
+    Vary: 'Origin',
   };
 }
 
@@ -43,7 +55,14 @@ export default {
       });
     }
 
-    let body: { name?: string; email?: string; subject?: string; message?: string };
+    let body: {
+      name?: string;
+      email?: string;
+      subject?: string;
+      message?: string;
+      website?: string;
+      turnstileToken?: string;
+    };
     try {
       body = await request.json();
     } catch {
@@ -53,7 +72,50 @@ export default {
       });
     }
 
-    const { name, email, subject, message } = body;
+    // Honeypot: silently accept bot submissions without sending email
+    if (typeof body.website === 'string' && body.website.trim().length > 0) {
+      return new Response(JSON.stringify({ success: true }), {
+        status: 200,
+        headers: { ...headers, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Verify Cloudflare Turnstile token when secret is configured
+    if (env.TURNSTILE_SECRET_KEY) {
+      const token = typeof body.turnstileToken === 'string' ? body.turnstileToken.trim() : '';
+      if (!token) {
+        return new Response(JSON.stringify({ error: 'Bot verification required' }), {
+          status: 403,
+          headers: { ...headers, 'Content-Type': 'application/json' },
+        });
+      }
+
+      const verifyRes = await fetch(
+        'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            secret: env.TURNSTILE_SECRET_KEY,
+            response: token,
+            remoteip: request.headers.get('CF-Connecting-IP') ?? '',
+          }),
+        }
+      );
+      const verifyData = (await verifyRes.json()) as { success?: boolean };
+      if (!verifyData.success) {
+        return new Response(JSON.stringify({ error: 'Bot verification failed' }), {
+          status: 403,
+          headers: { ...headers, 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
+    const name = typeof body.name === 'string' ? body.name.replace(/[\r\n]+/g, ' ').trim() : '';
+    const email = typeof body.email === 'string' ? body.email.trim() : '';
+    const subject =
+      typeof body.subject === 'string' ? body.subject.replace(/[\r\n]+/g, ' ').trim() : '';
+    const message = typeof body.message === 'string' ? body.message.trim() : '';
 
     // Server-side validation — §8 spec
     if (!name || !email || !message) {
@@ -64,6 +126,13 @@ export default {
           headers: { ...headers, 'Content-Type': 'application/json' },
         }
       );
+    }
+
+    if (name.length > 120 || email.length > 254 || subject.length > 200 || message.length > 5000) {
+      return new Response(JSON.stringify({ error: 'Input exceeds maximum length' }), {
+        status: 400,
+        headers: { ...headers, 'Content-Type': 'application/json' },
+      });
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -88,7 +157,7 @@ export default {
           },
         },
       ],
-      reply_to: [{ email_address: { address: email, name: name } }],
+      reply_to: [{ address: email, name: name }],
       subject: subject
         ? `[BWH Contact] ${subject}`
         : `[BWH Contact] New message from ${name}`,
@@ -97,7 +166,7 @@ export default {
           <h2 style="color: #18d8eb;">New Contact Form Submission</h2>
           <p><strong>Name:</strong> ${escapeHtml(name)}</p>
           <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-          <p><strong>Subject:</strong> ${escapeHtml(subject ?? 'No subject provided')}</p>
+          <p><strong>Subject:</strong> ${escapeHtml(subject || 'No subject provided')}</p>
           <hr style="border: 1px solid #eee; margin: 20px 0;" />
           <p><strong>Message:</strong></p>
           <p style="white-space: pre-wrap;">${escapeHtml(message)}</p>
@@ -106,10 +175,15 @@ export default {
     };
 
     try {
-      const zeploResponse = await fetch('https://api.zeptomail.com/v1.1/email', {
+      const rawKey = (env.ZEPTO_API_KEY ?? '').trim();
+      const authHeader = rawKey.startsWith('Zoho-enczapikey ')
+        ? rawKey
+        : `Zoho-enczapikey ${rawKey}`;
+
+      const zeploResponse = await fetch('https://cpaas.zoho.com/v1.1/email', {
         method: 'POST',
         headers: {
-          Authorization: `Zoho-enczapikey ${env.ZEPTO_API_KEY}`,
+          Authorization: authHeader,
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
@@ -118,11 +192,19 @@ export default {
 
       if (!zeploResponse.ok) {
         const errText = await zeploResponse.text();
-        console.error('ZeptoMail error:', errText);
-        return new Response(JSON.stringify({ error: 'Failed to send email' }), {
-          status: 502,
-          headers: { ...headers, 'Content-Type': 'application/json' },
-        });
+        console.error(
+          'ZeptoMail error:',
+          zeploResponse.status,
+          zeploResponse.statusText,
+          errText
+        );
+        return new Response(
+          JSON.stringify({ error: 'Failed to send email' }),
+          {
+            status: 502,
+            headers: { ...headers, 'Content-Type': 'application/json' },
+          }
+        );
       }
 
       return new Response(JSON.stringify({ success: true }), {

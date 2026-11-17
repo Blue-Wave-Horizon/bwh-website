@@ -1,100 +1,108 @@
 ---
-// §7 — Header.astro
-// Sticky, cream/90 + backdrop-blur. Active link = text-secondary + border-b-2 border-primary.
-// Mobile: hamburger toggles slide-down drawer. Vanilla JS, no frameworks.
-
+// Header: logo, nav, light/dark switch and contact button.
+// Below md the nav links move into a drop-down menu.
 const navLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
   { label: 'Products', href: '/products' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'About', href: '/about' },
 ];
 
 const currentPath = Astro.url.pathname;
-
-function isActive(href: string): boolean {
-  if (href === '/') return currentPath === '/';
-  return currentPath.startsWith(href);
-}
+const isActive = (href: string) => currentPath.startsWith(href);
 ---
 
-<header class="sticky top-0 z-50 bg-cream/90 backdrop-blur-md border-b border-cream-dark">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
+<header class="sticky top-0 z-50 border-b border-line bg-bg/85 backdrop-blur-md">
+  <div class="wrap flex items-center justify-between gap-4 py-3">
+    <a href="/" class="flex shrink-0 items-center gap-3 text-ink" aria-label="Blue Wave Horizon home">
+      <img src="/images/logo-mark.png" alt="" width="442" height="260" class="h-7 w-auto sm:h-[30px]" />
+      <span class="font-heading text-[15px] font-semibold tracking-[-0.01em]">Blue Wave Horizon</span>
+    </a>
 
-      <!-- Logo + wordmark -->
-      <a href="/" class="flex items-center gap-3 shrink-0" aria-label="Blue Wave Horizon home">
-        <img
-          src="/images/logo.png"
-          alt=""
-          width="36"
-          height="36"
-          class="h-9 w-auto"
-          aria-hidden="true"
-          onerror="this.style.display='none'"
-        />
-        <span class="font-heading font-bold text-ink text-base leading-tight">
-          Blue Wave Horizon
-        </span>
-      </a>
-
-      <!-- Desktop nav -->
-      <nav class="hidden md:flex items-center gap-1" aria-label="Main navigation">
-        {navLinks.map((link) => (
-          <a
-            href={link.href}
-            class={[
-              'px-4 py-2 font-body text-sm rounded-md transition-colors duration-150',
-              isActive(link.href)
-                ? 'text-secondary font-semibold border-b-2 border-primary'
-                : 'text-ink-mid hover:text-secondary',
-            ].join(' ')}
-            aria-current={isActive(link.href) ? 'page' : undefined}
-          >
-            {link.label}
-          </a>
-        ))}
+    <div class="flex items-center gap-2 md:gap-7">
+      <nav class="hidden items-center gap-7 md:flex" aria-label="Main">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              class:list={[
+                'inline-flex min-h-11 items-center text-[15px] transition-colors duration-150 hover:text-ink',
+                isActive(link.href) ? 'font-bold text-ink' : 'text-ink-mid',
+              ]}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          ))
+        }
       </nav>
 
-      <!-- Mobile hamburger -->
       <button
+        type="button"
+        data-theme-toggle
+        aria-label="Switch between light and dark mode"
+        class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-line-strong text-ink transition-colors duration-150 hover:bg-alt"
+      >
+        <svg class="block dark:hidden" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path>
+        </svg>
+        <svg class="hidden dark:block" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"></circle>
+          <line x1="12" y1="2" x2="12" y2="4"></line>
+          <line x1="12" y1="20" x2="12" y2="22"></line>
+          <line x1="2" y1="12" x2="4" y2="12"></line>
+          <line x1="20" y1="12" x2="22" y2="12"></line>
+          <line x1="4.9" y1="4.9" x2="6.3" y2="6.3"></line>
+          <line x1="17.7" y1="17.7" x2="19.1" y2="19.1"></line>
+          <line x1="4.9" y1="19.1" x2="6.3" y2="17.7"></line>
+          <line x1="17.7" y1="6.3" x2="19.1" y2="4.9"></line>
+        </svg>
+      </button>
+
+      <a
+        href="/contact"
+        class="hidden min-h-11 items-center rounded-full bg-navbtn-bg px-[22px] text-[15px] font-semibold text-navbtn-fg transition-opacity duration-150 hover:opacity-85 md:inline-flex"
+      >
+        Get in touch
+      </a>
+
+      <button
+        type="button"
         id="mobile-menu-btn"
-        class="md:hidden flex flex-col gap-1.5 p-2 rounded-md text-ink hover:bg-cream-mid transition-colors duration-150"
-        aria-label="Open navigation menu"
+        class="flex h-11 w-11 cursor-pointer flex-col items-center justify-center gap-[5px] rounded-full border border-line-strong md:hidden"
+        aria-label="Open menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
       >
-        <span class="block w-6 h-0.5 bg-ink" id="hamburger-1"></span>
-        <span class="block w-6 h-0.5 bg-ink" id="hamburger-2"></span>
-        <span class="block w-6 h-0.5 bg-ink" id="hamburger-3"></span>
+        <span class="block h-[1.5px] w-[18px] bg-ink"></span>
+        <span class="block h-[1.5px] w-[18px] bg-ink"></span>
+        <span class="block h-[1.5px] w-[18px] bg-ink"></span>
       </button>
     </div>
   </div>
 
-  <!-- Mobile drawer -->
-  <div
-    id="mobile-menu"
-    class="hidden md:hidden bg-cream border-b border-cream-dark"
-    role="navigation"
-    aria-label="Mobile navigation"
-  >
-    <nav class="flex flex-col px-4 py-4 gap-1">
-      {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class={[
-            'px-4 py-3 font-body text-base rounded-lg transition-colors duration-150',
-            isActive(link.href)
-              ? 'text-secondary font-semibold bg-primary/10'
-              : 'text-ink-mid hover:text-secondary hover:bg-cream-mid',
-          ].join(' ')}
-          aria-current={isActive(link.href) ? 'page' : undefined}
-        >
-          {link.label}
-        </a>
-      ))}
-    </nav>
-  </div>
+  <nav id="mobile-menu" class="hidden border-t border-line md:hidden" aria-label="Mobile">
+    <div class="wrap flex flex-col py-3">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'flex min-h-12 items-center border-b border-line font-heading text-lg',
+              isActive(link.href) ? 'font-semibold text-ink' : 'text-ink-mid',
+            ]}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href="/contact"
+        class="mt-4 mb-2 flex min-h-12 items-center justify-center rounded-full bg-primary font-bold text-[#1a1a2e]"
+      >
+        Get in touch
+      </a>
+    </div>
+  </nav>
 </header>
 
 <script>
@@ -102,21 +110,18 @@ function isActive(href: string): boolean {
   const menu = document.getElementById('mobile-menu');
 
   btn?.addEventListener('click', () => {
-    const isOpen = !menu?.classList.contains('hidden');
-    if (isOpen) {
-      menu?.classList.add('hidden');
-      btn.setAttribute('aria-expanded', 'false');
-    } else {
-      menu?.classList.remove('hidden');
-      btn.setAttribute('aria-expanded', 'true');
-    }
+    const open = menu?.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   });
 
-  // Close drawer when a link inside it is clicked
-  menu?.querySelectorAll('a').forEach((a) => {
-    a.addEventListener('click', () => {
-      menu.classList.add('hidden');
-      btn?.setAttribute('aria-expanded', 'false');
+  document.querySelectorAll('[data-theme-toggle]').forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try {
+        localStorage.setItem('bwh-theme', next);
+      } catch {}
     });
   });
 </script>

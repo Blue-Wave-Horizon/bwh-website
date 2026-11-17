@@ -1,43 +1,41 @@
 export interface Product {
   id: string;
   name: string;
-  tagline: string;
   description: string;
   category: string;
-  badgeColor: 'primary' | 'accent';
-  slug: string;        // e.g. 'dwellr' → maps to /products/dwellr
-  imageSrc: string;    // path in /public/images/
-  imageAlt: string;
-  status: 'live' | 'coming-soon' | 'beta';
-  externalUrl?: string; // primary live URL if applicable
+  slug: string; // e.g. 'dwellr' → maps to /products/dwellr
+  status: 'live' | 'coming-soon';
+  statusLabel: string; // shown next to the status dot
+  imageSrc?: string; // path in /public/images/ (live products)
+  imageAlt?: string;
+  externalUrl?: string; // the product's own site, if it has one
+  externalLabel?: string;
 }
 
+// Live products are listed first.
 export const products: Product[] = [
+  {
+    id: 'velopad',
+    name: 'VeloPad',
+    description:
+      'An Android phone that plays as a PC game controller. Tilt to aim, tap to shoot, over Wi-Fi or USB.',
+    category: 'Gaming utility',
+    slug: 'velopad',
+    status: 'live',
+    statusLabel: 'Live on Google Play',
+    imageSrc: '/images/velopad/fps-layout.jpg',
+    imageAlt: 'A custom VeloPad FPS layout on a phone held sideways, with fire, aim, jump and weapon buttons',
+    externalUrl: 'https://velopad.bluewavehz.com',
+    externalLabel: 'Visit the VeloPad site',
+  },
   {
     id: 'dwellr',
     name: 'Dwellr',
-    tagline: 'Direct landlord-to-tenant rentals. No agent fees.',
     description:
-      'A two-sided rental marketplace connecting landlords and tenants directly across Nigeria.',
+      'A rental marketplace that connects landlords and tenants in Nigeria directly, with no agent in between.',
     category: 'PropTech',
-    badgeColor: 'primary',
     slug: 'dwellr',
-    imageSrc: '/images/dwellr-preview.png',
-    imageAlt: 'Dwellr rental platform screenshot',
-    status: 'live',
-    externalUrl: 'https://dwellr.ng',
-  },
-  {
-    id: 'velopad',
-    name: 'Velopad',
-    tagline: 'Your phone, reimagined as a high-precision PC controller.',
-    description:
-      'Turns Android devices into low-latency PC game controllers using gyroscope and touch input.',
-    category: 'Gaming Utility',
-    badgeColor: 'accent',
-    slug: 'velopad',
-    imageSrc: '/images/velopad-preview.png',
-    imageAlt: 'Velopad controller interface screenshot',
-    status: 'live',
+    status: 'coming-soon',
+    statusLabel: 'In development',
   },
 ];
